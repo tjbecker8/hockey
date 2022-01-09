@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 const Game = () => {
     return (
         <div>
-        <Container>
+
           <Row>
             <Col>12/12/21</Col>
             <Col>18:30</Col>
@@ -14,7 +14,7 @@ const Game = () => {
             <Col>Ref/Line</Col>
             <Col>Line</Col>
           </Row>
-        </Container>
+      
         </div>
     )
 }

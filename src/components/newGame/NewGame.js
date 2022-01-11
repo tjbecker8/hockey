@@ -2,12 +2,17 @@ import React from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import './newGame.css'
-import NewGameSubmit from './Functions'
 
 const NewGame = () => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("hey this shit works" );;
+  }
+
     return (
         <div className='newGameDiv'>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Date and Time</Form.Label>
             <Form.Control type="datetime-local"  />
@@ -25,7 +30,7 @@ const NewGame = () => {
           </Form.Group>
 
 
-        <Button onClick={NewGameSubmit} variant="primary" type="submit">
+        <Button  variant="primary" type="submit">
           Create Game
         </Button>
 

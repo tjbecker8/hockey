@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Game from './Game.js'
 import Col from 'react-bootstrap/Col'
+import './Schedule.css';
 
 
 
@@ -36,7 +37,7 @@ const Schedule = () => {
     }
   ]
     return (
-        <div>
+        <div className='topDiv'>
         <Stack gap={3}>
           <Container>
             <Row>

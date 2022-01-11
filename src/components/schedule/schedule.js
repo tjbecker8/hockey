@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col'
 import './Schedule.css';
 
 
-
+//change this to a table on react bootstrap
 
 const Schedule = () => {
   const games = [

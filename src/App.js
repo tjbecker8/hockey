@@ -4,6 +4,8 @@ import Schedule from './components/schedule/schedule'
 import TopBar from './components/topBar/TopBar'
 import NewGame from './components/newGame/NewGame'
 import NewUser from './components/NewUser/NewUser'
+import Login from './components/login/Login'
+import ViewGame from './components/viewGame/ViewGame'
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
       <Schedule />
       <NewGame />
       <NewUser />
+      <Login />
+      <ViewGame />
 
     </div>
   );

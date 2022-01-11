@@ -1,17 +1,17 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import './newUser.css'
+import './Login.css'
 
-const NewUser = () => {
+const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("signup button works");
+    console.log("login button works");
   }
     return (
-        <div className='newUserDiv'>
-        <h3>Sign up for a new account</h3>
-        <h5>If you already have an account. Sign in <a id="here">here</a></h5>
+        <div className='loginDiv'>
+        <h3>Login</h3>
+        <h5>Sign up for an account <a id="here">here</a></h5>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -21,10 +21,6 @@ const NewUser = () => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control type="password" placeholder="Password" />
-            <Form.Text id="passwordHelpBlock" muted>
-            Your password must be 8-20 characters long, and
-            must not contain spaces, special characters, or emoji.
-            </Form.Text>
           </Form.Group>
           <Button variant="primary" type="submit">
             Submit
@@ -35,4 +31,4 @@ const NewUser = () => {
     )
 }
 
-export default NewUser
+export default Login

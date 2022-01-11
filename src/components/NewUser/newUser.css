@@ -1,0 +1,10 @@
+.newUserDiv {
+  max-width: 500px;
+  margin: auto;
+}
+
+#here:hover {
+  font-size: 120%;
+  color: blue;
+  cursor: pointer;
+}

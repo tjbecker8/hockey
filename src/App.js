@@ -22,3 +22,7 @@ function App() {
 }
 
 export default App;
+
+//for tomorrow to work on:
+//page for editing games/assiging officials should be 2 seperate pages
+//start adding firebase

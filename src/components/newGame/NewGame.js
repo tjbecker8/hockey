@@ -2,15 +2,15 @@ import React from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import './newGame.css'
-import db from '../../firebase';
-import { collection, addDoc } from "firebase/firestore";
+import { db } from '../../firebase';
+import { collection, addDoc, setDoc, doc, } from "firebase/firestore";
 
 const NewGame = () => {
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("hey this shit works" );;
-    await setDoc(doc(db, "cities", "LA"), {
+    const docRef = await setDoc(doc(db, "cities", "LA"), {
       name: "Los Angeles",
       state: "CA",
       country: "USA"

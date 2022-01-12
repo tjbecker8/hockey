@@ -17,7 +17,6 @@ const NewGame = () => {
     const docRef =  await addDoc(collection(db, "games"), {
       dateTime: date,
       grade: grade,
-
     });
     console.log("Document written with ID: ", docRef.id);
     alert("Game Created")

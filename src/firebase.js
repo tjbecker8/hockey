@@ -1,7 +1,9 @@
 import { initializeApp } from 'firebase/app';
 
 import "firebase/auth";
-import "firebase/firestore"
+import { getFirestore } from "firebase/firestore"
+
+
 
 
 const firebaseConfig = {
@@ -16,55 +18,47 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const db = getFirestore()
 // const analytics = getAnalytics(app);
-const auth = app.auth();
-const db = app.firestore();
+// export const auth = app.auth();
+// export const db = app.firestore();
 
-const signInWithEmailAndPassword = async (email, password) => {
-  try {
-    await auth.signInWithEmailAndPassword(email, password);
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
+// export const signInWithEmailAndPassword = async (email, password) => {
+//   try {
+//     await auth.signInWithEmailAndPassword(email, password);
+//   } catch (err) {
+//     console.error(err);
+//     alert(err.message);
+//   }
+// };
 
-const registerWithEmailAndPassword = async (name, email, password) => {
-  try {
-    const res = await auth.createUserWithEmailAndPassword(email, password);
-    const user = res.user;
-    await db.collection("users").add({
-      uid: user.uid,
-      name,
-      authProvider: "local",
-      email,
-    });
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
-
-const sendPasswordResetEmail = async (email) => {
-  try {
-    await auth.sendPasswordResetEmail(email);
-    alert("Password reset link sent!");
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
-
-
-const logout = () => {
-  auth.signOut();
-};
-
-export default {
-  auth,
-  db,
-  signInWithEmailAndPassword,
-  registerWithEmailAndPassword,
-  sendPasswordResetEmail,
-  logout,
-};
+// export const registerWithEmailAndPassword = async (name, email, password) => {
+//   try {
+//     const res = await auth.createUserWithEmailAndPassword(email, password);
+//     const user = res.user;
+//     await db.collection("users").add({
+//       uid: user.uid,
+//       name,
+//       authProvider: "local",
+//       email,
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     alert(err.message);
+//   }
+// };
+//
+//  export const sendPasswordResetEmail = async (email) => {
+//   try {
+//     await auth.sendPasswordResetEmail(email);
+//     alert("Password reset link sent!");
+//   } catch (err) {
+//     console.error(err);
+//     alert(err.message);
+//   }
+// };
+//
+//
+// export const logout = () => {
+//   auth.signOut();
+// };

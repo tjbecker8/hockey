@@ -3,13 +3,21 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import './newGame.css'
 import db from '../../firebase';
+import { collection, addDoc } from "firebase/firestore";
 
 const NewGame = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("hey this shit works" );;
+    await setDoc(doc(db, "cities", "LA"), {
+      name: "Los Angeles",
+      state: "CA",
+      country: "USA"
+    });
+    console.log("Document written with ID: ", docRef.id);
   }
+  //need to test later...not tested yet
 
     return (
         <div className='newGameDiv'>

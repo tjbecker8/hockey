@@ -9,15 +9,15 @@ const NewGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("hey this shit works" );;
-    const docRef = await setDoc(doc(db, "cities", "LA"), {
+    console.log("hey this shit works" );
+    const docRef =  await addDoc(collection(db, "cities"), {
       name: "Los Angeles",
       state: "CA",
       country: "USA"
     });
     console.log("Document written with ID: ", docRef.id);
   }
-  //need to test later...not tested yet
+  //now it is working, need to add hooks for info
 
     return (
         <div className='newGameDiv'>

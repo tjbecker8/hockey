@@ -15,6 +15,7 @@ const EditGame = () => {
     const [id, setId] = useState(1)
     const [game, setGame] = useState({dateTime: new Date(), grade:"1"});
     const [date, setDate] = useState('')
+    const [datedisplay, setDatedisplay] = useState('')
     const [grade, setGrade] =useState('')
     const [refs, setRefs] = useState([])
     const [ref, setRef] = useState(null)
@@ -31,7 +32,8 @@ const EditGame = () => {
         setGrade(docSnap.data().grade)
         setGame(docSnap.data())
         let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
-        setDate(thisDate.toISOString().split(':', 2).join(":"))
+        setDate(thisDate)
+        setDatedisplay(thisDate.toISOString().split(':', 2).join(":"))
       } else {
         console.log("No such document!");
       }
@@ -107,7 +109,7 @@ const EditGame = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Date and Time</Form.Label>
-            <Form.Control type="datetime-local"  value={date} onChange={dateChange} />
+            <Form.Control type="datetime-local"  value={datedisplay} onChange={dateChange} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Grade</Form.Label>

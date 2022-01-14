@@ -5,10 +5,11 @@ import Form from 'react-bootstrap/Form'
 import { doc, getDoc, Timestamp, getDocs, collection, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase';
 import moment from 'moment';
+import DateTimePicker from 'react-datetime-picker';
 
 
 
-
+//need to still do so refs on game automatically populate in the three sections
 
 const EditGame = () => {
 
@@ -23,22 +24,6 @@ const EditGame = () => {
     const [line, setLine] = useState(null)
     const [notes, setNotes] = useState('no notes yet')
 
-    const getGame = async () => {
-      const docRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr");
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        // console.log("Document data:", docSnap.data().grade);
-        setGrade(docSnap.data().grade)
-        setGame(docSnap.data())
-        let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
-        setDate(thisDate)
-        setDatedisplay(thisDate.toISOString().split(':', 2).join(":"))
-      } else {
-        console.log("No such document!");
-      }
-    }
-
     const getRefs = async () => {
       const querySnapshot = await getDocs(collection(db, "refs"));
       querySnapshot.forEach((doc) => {
@@ -50,9 +35,31 @@ const EditGame = () => {
       });
     }
 
+
+    const getGame = async () => {
+      getRefs()
+      const docRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+
+        // console.log("Document data:", docSnap.data().grade);
+        setGrade(docSnap.data().grade)
+        setNotes(docSnap.data().notes)
+        setGame(docSnap.data())
+        let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
+        setDate(thisDate)
+        setDatedisplay(thisDate.toISOString().split(':', 2).join(":"))
+      } else {
+        console.log("No such document!");
+      }
+    }
+
+
+
     useEffect(() => {
       getGame()
-      getRefs()
+
     }, [id]);
 
     const dateChange = (e) => {
@@ -109,7 +116,13 @@ const EditGame = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Date and Time</Form.Label>
-            <Form.Control type="datetime-local"  value={datedisplay} onChange={dateChange} />
+
+            <DateTimePicker
+              onChange={setDate}
+              value={date}
+              />
+          
+
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Grade</Form.Label>

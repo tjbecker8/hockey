@@ -9,7 +9,7 @@ import DateTimePicker from 'react-datetime-picker';
 
 
 
-//need to still do so refs on game automatically populate in the three sections
+//need to still do, so refs on game automatically populate in the three sections
 
 const EditGame = () => {
 
@@ -121,7 +121,7 @@ const EditGame = () => {
               onChange={setDate}
               value={date}
               />
-          
+
 
           </Form.Group>
           <Form.Group className="mb-3">

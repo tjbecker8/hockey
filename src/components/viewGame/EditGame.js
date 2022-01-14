@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './EditGame.css'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { doc, getDoc, Timestamp, getDocs, collection } from "firebase/firestore";
+import { doc, getDoc, Timestamp, getDocs, collection, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase';
 import moment from 'moment';
 
@@ -20,6 +20,7 @@ const EditGame = () => {
     const [ref, setRef] = useState(null)
     const [refline, setRefline] = useState(null)
     const [line, setLine] = useState(null)
+    const [notes, setNotes] = useState('no notes yet')
 
     const getGame = async () => {
       const docRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr");
@@ -77,10 +78,25 @@ const EditGame = () => {
       setLine(e.target.value)
     }
 
+    const addNotes = (e) => {
+      e.preventDefault()
+      setNotes(e.target.value)
+    }
 
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const gameRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr")
+      updateDoc(gameRef, {
+        dateTime: date,
+        grade: grade,
+        ref: ref,
+        refLine: refline,
+        line: line,
+        notes: notes,
+      })
+      console.log("Document updated with ID: ", gameRef.id);
 
   }
 
@@ -146,7 +162,7 @@ const EditGame = () => {
 
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Game Notes</Form.Label>
-              <Form.Control as="textarea" rows={2} defaultValue="games notes already there, use onchange for editing w/ hooks" />
+              <Form.Control as="textarea" rows={2} defaultValue={notes} onChange={addNotes} />
             </Form.Group>
 
           <Button variant="primary" type="submit">

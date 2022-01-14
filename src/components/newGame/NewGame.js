@@ -37,6 +37,8 @@ const NewGame = () => {
     setGrade(e.target.value)
   }
 
+  
+
     return (
         <div className='newGameDiv'>
         <Form onSubmit={handleSubmit}>

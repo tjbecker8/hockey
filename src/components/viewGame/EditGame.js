@@ -22,7 +22,7 @@ const EditGame = () => {
     const [ref, setRef] = useState(null)
     const [refline, setRefline] = useState(null)
     const [line, setLine] = useState(null)
-    const [notes, setNotes] = useState('no notes yet')
+    const [notes, setNotes] = useState('')
 
     const getRefs = async () => {
       const querySnapshot = await getDocs(collection(db, "refs"));
@@ -50,6 +50,7 @@ const EditGame = () => {
         let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
         setDate(thisDate)
         setDatedisplay(thisDate.toISOString().split(':', 2).join(":"))
+
       } else {
         console.log("No such document!");
       }
@@ -59,7 +60,6 @@ const EditGame = () => {
 
     useEffect(() => {
       getGame()
-
     }, [id]);
 
     const dateChange = (e) => {

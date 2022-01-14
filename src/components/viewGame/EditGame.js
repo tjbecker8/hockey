@@ -125,7 +125,7 @@ const EditGame = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Ref</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label="Default select example" onChange={refChange}>
               <option>Ref</option> //need to change so default ref shows up from game
                 {
                   refs.map(ref => (
@@ -138,7 +138,7 @@ const EditGame = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Ref/Line</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label="Default select example" onChange={refLineChange}>
               <option>Ref/Linesman</option> //need to change so default ref shows up from game
                 {
                   refs.map(ref => (
@@ -151,7 +151,7 @@ const EditGame = () => {
 
           <Form.Group className="mb-3">
             <Form.Label>Line</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label="Default select example" onChange={LineChange}>
               <option>Linesman</option> //need to change so default ref shows up from game
                 {
                   refs.map(ref => (

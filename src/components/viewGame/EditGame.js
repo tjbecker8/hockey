@@ -17,6 +17,9 @@ const EditGame = () => {
     const [date, setDate] = useState('')
     const [grade, setGrade] =useState('')
     const [refs, setRefs] = useState([])
+    const [ref, setRef] = useState(null)
+    const [refline, setRefline] = useState(null)
+    const [line, setLine] = useState(null)
 
     const getGame = async () => {
       const docRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr");
@@ -49,6 +52,30 @@ const EditGame = () => {
       getRefs()
     }, [id]);
 
+    const dateChange = (e) => {
+      e.preventDefault();
+      setDate(e.target.valueAsDate)
+    }
+
+    const gradeChange = (e) => {
+      e.preventDefault();
+      setGrade(e.target.value)
+    }
+
+    const refChange = (e) => {
+      e.preventDefault();
+      setRef(e.target.value)
+    }
+
+    const refLineChange = (e) => {
+      e.preventDefault();
+      setRefline(e.target.value)
+    }
+
+    const LineChange = (e) => {
+      e.preventDefault();
+      setLine(e.target.value)
+    }
 
 
 
@@ -64,11 +91,11 @@ const EditGame = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>Date and Time</Form.Label>
-            <Form.Control type="datetime-local"  value={date} />
+            <Form.Control type="datetime-local"  value={date} onChange={dateChange} />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Grade</Form.Label>
-            <Form.Select aria-label="Default select example">
+            <Form.Select aria-label="Default select example" onChange={gradeChange}>
               <option value={grade}>{grade < 5 ? "G"+grade : "Other"}</option>
               <option value="1">G1</option>
               <option value="2">G2</option>
@@ -87,7 +114,7 @@ const EditGame = () => {
                     <option key={ref.id} value={ref.id}>{ref.name}</option>
                   ))
                 }
-              
+
             </Form.Select>
           </Form.Group>
 

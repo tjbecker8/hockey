@@ -8,18 +8,22 @@ import { collection, addDoc, setDoc, doc, } from "firebase/firestore";
 const NewGame = () => {
 
   const [date, setDate] = useState(null);
-  const [grade, setGrade] = useState(null)
+  const [grade, setGrade] = useState('1')
 
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (date && grade != null) {
     const docRef =  await addDoc(collection(db, "games"), {
       dateTime: date,
       grade: grade,
     });
     console.log("Document written with ID: ", docRef.id);
     alert("Game Created")
+  } else {
+   alert("Date and Time cannot be empty")
+ }
   }
 
 

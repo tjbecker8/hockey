@@ -23,17 +23,12 @@ const Schedule = () => {
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       setGames(games => [ ... games, { //not working//
-        date: doc.data().dateTime,
-        grade: doc.data().grade,
+        data: doc.data(),
         id: doc.id,
-        ref: doc.data().ref,
-        refLine: doc.data().refLine,
-        line: doc.data().line,
-        notes: doc.data().notes,
       }])
       console.log("info", doc.id, " => ", doc.data());
 });
-console.log("games", games);
+
   }
 
   useEffect(() => {
@@ -71,6 +66,7 @@ console.log("games", games);
 
     return (
         <div className='topDiv'>
+          <h3>{games.length}</h3>
         <Stack gap={3}>
           <Container>
             <Row>
@@ -82,7 +78,7 @@ console.log("games", games);
               <Col>Line</Col>
             </Row>
 
-        { gamesTest.map((i, index) => {
+        { games.map((i, index) => {
           return (
          <Game info={i} key={index} />
         )})

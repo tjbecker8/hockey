@@ -10,31 +10,43 @@ const NewUser = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
+const signUp = () => {
   const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
     // Signed in
     const user = userCredential.user;
     // ...
+    console.log("user", user);
     })
     .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+    console.log("err", errorCode);
+    console.log("errmss", errorMessage);
     // ..
   });
+
+}
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log("signup button works");
+    signUp()
+
   }
 
   const passwordChange = (e) => {
     e.preventDefault()
+    setPassword(e.target.value)
+    console.log(e.target.value);
   }
 
   const emailChange =(e) => {
     e.preventDefault()
+    setEmail(e.target.value)
+    console.log(e.target.value);
   }
     return (
         <div className='newUserDiv'>
@@ -43,12 +55,12 @@ const NewUser = () => {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control type="email" placeholder="Enter email" onChange={emailChange} />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="password" placeholder="Password" onChange={passwordChange} />
             <Form.Text id="passwordHelpBlock" muted>
             Your password must be 8-20 characters long, and
             must not contain spaces, special characters, or emoji.

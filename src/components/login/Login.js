@@ -17,11 +17,13 @@ const Login = () => {
       .then((userCredential) => {
     // Signed in
       const user = userCredential.user;
+      console.log("user", user);
     // ...
     })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log("err");
       });
   }
 
@@ -40,6 +42,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log("login button works");
+    loginAuth()
   }
 
 

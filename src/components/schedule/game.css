@@ -1,0 +1,7 @@
+.gameDiv {
+  cursor: pointer;
+  background-color: grey;
+  padding: 5px;
+  border: solid 1px black;
+  margin: 2px;
+}

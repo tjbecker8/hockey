@@ -22,7 +22,7 @@ const Schedule = () => {
     const querySnapshot = await getDocs(collection(db, "games"), where("dateTime", ">=", yesterday));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      setGames(games => [ ... games, {
+      setGames(games => [ ... games, { //not working//
         date: doc.data().dateTime,
         grade: doc.data().grade,
         id: doc.id,

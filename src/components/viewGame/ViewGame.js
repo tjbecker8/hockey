@@ -6,10 +6,15 @@ import Collapse from 'react-bootstrap/Collapse'
 import Form from 'react-bootstrap/Form'
 import { doc, getDoc, Timestamp, getDocs, collection, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase';
+import {
+  useParams,
+} from 'react-router-dom';
 
-const ViewGame = () => {
+
+
+const ViewGame = (props) => {
   const [open, setOpen] = useState(false);
-  const [notes, setNotes] = useState('')
+  const [notes, setNotes] = useState('no notes yet')
   const [game, setGame] = useState({dateTime: new Date(), grade:"1"});
   const [date, setDate] = useState('')
   const [grade, setGrade] =useState('')
@@ -17,18 +22,23 @@ const ViewGame = () => {
   const [refline, setRefline] = useState(null)
   const [line, setLine] = useState(null)
   const [datedisplay, setDatedisplay] = useState('')
-  const [id, setId] = useState(1)
+  // const [id, setId] = useState(1)
 
+
+  const { id } = useParams();
 
   const getGame = async () => {
-    const docRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr");
+    const docRef = doc(db, "games", id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
 
       // console.log("Document data:", docSnap.data().grade);
       setGrade(docSnap.data().grade)
-      setNotes(docSnap.data().notes)
+      if (docSnap.data().notes.length > 0) {
+        setNotes(docSnap.data().notes)
+      }
+
       setGame(docSnap.data())
       setRef(docSnap.data().ref)
       setRefline(docSnap.data().refline)
@@ -42,6 +52,7 @@ const ViewGame = () => {
 
   useEffect(() => {
     getGame()
+    console.log("gameid", id);
   }, [id]);
 
   const addNotes = (e) => {
@@ -51,7 +62,7 @@ const ViewGame = () => {
 
   const exited = () => {
 
-    const gameRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr")
+    const gameRef = doc(db, "games", id)
       updateDoc(gameRef, {
         notes: notes,
       })
@@ -63,6 +74,7 @@ const ViewGame = () => {
 
     return (
         <div className='VGDiv'>
+
         <Stack gap={3}>
           <div className="bg-light border">{datedisplay}</div>
           <div className="bg-light border">{
@@ -92,6 +104,7 @@ const ViewGame = () => {
           <Collapse in={open} onExited={exited}>
             <div>
               <Form.Control as="textarea" rows={4} defaultValue={notes} onChange={addNotes} />
+
               <Button onClick={() =>
                   setOpen(!open)
                 } >Done</Button>

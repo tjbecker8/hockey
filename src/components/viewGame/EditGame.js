@@ -6,6 +6,7 @@ import { doc, getDoc, Timestamp, getDocs, collection, updateDoc } from "firebase
 import { db } from '../../firebase';
 import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
+import { useParams, } from 'react-router-dom';
 
 
 
@@ -13,7 +14,7 @@ import DateTimePicker from 'react-datetime-picker';
 
 const EditGame = () => {
 
-    const [id, setId] = useState(1)
+    const { id } = useParams();
     const [game, setGame] = useState({dateTime: new Date(), grade:"1"});
     const [date, setDate] = useState('')
     const [datedisplay, setDatedisplay] = useState('')
@@ -38,7 +39,7 @@ const EditGame = () => {
 
     const getGame = async () => {
       getRefs()
-      const docRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr");
+      const docRef = doc(db, "games", id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -60,6 +61,7 @@ const EditGame = () => {
 
     useEffect(() => {
       getGame()
+      console.log("gameid", id);
     }, [id]);
 
     const dateChange = (e) => {
@@ -96,7 +98,7 @@ const EditGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const gameRef = doc(db, "games", "pdQasPeTKEhRKRBX9lMr")
+    const gameRef = doc(db, "games", id)
       updateDoc(gameRef, {
         dateTime: date,
         grade: grade,

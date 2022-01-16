@@ -31,7 +31,7 @@ const Game = (props) => {
 
         <div className="gameDiv"  >
 
-        <Link to={'/viewgame/${id}'}>
+        <Link to={`/viewgame/${id}`}>
 
           <Row>
             <Col>{date}</Col>

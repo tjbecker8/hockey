@@ -30,8 +30,12 @@ function App() {
         <Route path="newgame" element={ <NewGame /> } />
         <Route path="newuser" element={ <NewUser /> } />
         <Route path="login" element={ <Login /> } />
-        <Route path="viewgame:id" element={ <ViewGame /> } />
-        <Route path="editgame" element={ <EditGame />  } />
+        <Route path="viewgame" element={ <HomePage/> } >
+          <Route path=":id" element={<ViewGame />} />
+        </Route >
+        <Route path="editgame" element={ <EditGame />  } >
+          <Route path=":id" element={<EditGame />} />
+        </Route >
       </Routes>
 
 

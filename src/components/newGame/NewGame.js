@@ -18,6 +18,10 @@ const NewGame = () => {
     const docRef =  await addDoc(collection(db, "games"), {
       dateTime: date,
       grade: grade,
+      line: null,
+      ref: null,
+      refLine: null,
+      notes: '',
     });
     console.log("Document written with ID: ", docRef.id);
     alert("Game Created")
@@ -37,7 +41,7 @@ const NewGame = () => {
     setGrade(e.target.value)
   }
 
-  
+
 
     return (
         <div className='newGameDiv'>

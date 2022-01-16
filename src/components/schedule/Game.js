@@ -5,6 +5,9 @@ import Nav from 'react-bootstrap/Nav'
 import './game.css'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
+import {
+  Link
+} from "react-router-dom";
 
 
 
@@ -12,18 +15,26 @@ import Tooltip from 'react-bootstrap/Tooltip'
 
 
 const Game = (props) => {
+
+  const [date, setDate] = useState('')
+  const [id, setId] = useState('')
+
   useEffect(() => {
-    console.log("props", props.info.data);
+
+    setId(props.info.id)
+  console.log("id", id);
+    let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
+    setDate(thisDate.toISOString().split(':', 2).join(":"))
   });
 
     return (
 
         <div className="gameDiv"  >
 
-        <Nav.Link href="/viewgame">
+        <Link to={'/viewgame/${id}'}>
 
           <Row>
-            <Col>{props.info.date}</Col>
+            <Col>{date}</Col>
             <Col>{props.info.data.grade}</Col>
             <Col>{props.info.data.ref}</Col>
             <Col>{props.info.data.refline}</Col>
@@ -41,7 +52,7 @@ const Game = (props) => {
             </Col>
           </Row>
 
-        </Nav.Link>
+        </Link>
         </div>
     )
 }

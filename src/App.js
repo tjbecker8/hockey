@@ -26,10 +26,11 @@ function App() {
       <Routes>
         <Route path="/" element={ <HomePage/> } />
         <Route path="schedule" element={ <Schedule /> } />
+
         <Route path="newgame" element={ <NewGame /> } />
         <Route path="newuser" element={ <NewUser /> } />
         <Route path="login" element={ <Login /> } />
-        <Route path="viewgame" element={ <ViewGame /> } />
+        <Route path="viewgame:id" element={ <ViewGame /> } />
         <Route path="editgame" element={ <EditGame />  } />
       </Routes>
 

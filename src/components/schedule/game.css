@@ -1,8 +1,15 @@
 .gameDiv {
-  cursor: pointer;
-  background-color: grey;
+  background-color: LightGrey;
   padding: 5px;
   border: solid 1px black;
   margin: 2px;
+}
 
+.gameDiv:hover {
+  background-color: grey;
+  color: lightblue;
+}
+
+.gameP {
+  cursor: pointer;
 }

@@ -26,7 +26,7 @@ const Schedule = () => {
         data: doc.data(),
         id: doc.id,
       }])
-      console.log("info", doc.id, " => ", doc.data());
+
 });
 
   }
@@ -35,38 +35,13 @@ const Schedule = () => {
     getGames()
   }, [id]);
 
-  const gamesTest = [
-    {
-      date: '12/12/21',
-      time: "18:30",
-      grade: "t1",
-      ref1: "tom",
-      ref2: "ted",
-      ref3: "rich",
-    },
-    {
-      date: '12/12/22',
-      time: "18:30",
-      grade: "t1",
-      ref1: "tom",
-      ref2: "ted",
-      ref3: "rich",
-    },
-    {
-      date: '12/12/23',
-      time: "18:30",
-      grade: "t1",
-      ref1: "tom",
-      ref2: "ted",
-      ref3: "rich",
-    }
-  ]
+
 
 
 
     return (
         <div className='topDiv'>
-          <h3>{games.length}</h3>
+
         <Stack gap={3}>
           <Container>
             <Row>
@@ -76,6 +51,7 @@ const Schedule = () => {
               <Col>Ref/Line</Col>
               <Col>Line</Col>
               <Col>Notes</Col>
+              <Col></Col>
             </Row>
 
         { games.map((i, index) => {

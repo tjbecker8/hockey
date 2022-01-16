@@ -39,7 +39,7 @@ const TopBar = () => {
                 <NavDropdown.Item href="#action/3.2">My Games</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Availability</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/" onClick={logOut()}>Logout</NavDropdown.Item>
+                <NavDropdown.Item href="/" onClick={ ()=>{logOut()} }>Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
             </Navbar.Collapse>

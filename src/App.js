@@ -30,7 +30,7 @@ function App() {
         <Route path="newgame" element={ <NewGame /> } />
         <Route path="newuser" element={ <NewUser /> } />
         <Route path="login" element={ <Login /> } />
-        <Route path="viewgame" element={ <HomePage/> } >
+        <Route path="viewgame" element={ <ViewGame /> } >
           <Route path=":id" element={<ViewGame />} />
         </Route >
         <Route path="editgame" element={ <EditGame />  } >

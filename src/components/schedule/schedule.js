@@ -71,11 +71,11 @@ const Schedule = () => {
           <Container>
             <Row>
               <Col>Date</Col>
-              <Col>Time</Col>
               <Col>Grade</Col>
               <Col>Ref</Col>
               <Col>Ref/Line</Col>
               <Col>Line</Col>
+              <Col>Notes</Col>
             </Row>
 
         { games.map((i, index) => {

@@ -7,10 +7,7 @@ import { auth, db } from '../../firebase';
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
-
-
-const Profile = () => {
-
+const UpdateProfile = () => {
 
   const [name, setName] = useState('Tom Becker')
   const [image, setImage] = useState("https://firebasestorage.googleapis.com/v0/b/refsched-7a9be.appspot.com/o/Screen%20Shot%202022-01-17%20at%2012.24.10%20PM.png?alt=media&token=52cfbbac-08ab-4d3e-86a2-387cc438f462")
@@ -20,10 +17,8 @@ const Profile = () => {
   const [userId, setUserId] = useState("1")
   const [isRef, setIsRef] = useState(false)
 
+
   const auth = getAuth();
-
-
-
 
   const getUserInfo =  async (id) => {
     const docRef = doc(db, "users", id);
@@ -43,19 +38,14 @@ const Profile = () => {
     }
   }
 
-
-
-  const profileUpdate = () => {
-
-    }
-
-    useEffect(() => {
-      console.log("user", auth.currentUser.uid);
-      setUserId(auth.currentUser.uid)
-      getUserInfo(auth.currentUser.uid)
-    }, [userId]);
+  useEffect(() => {
+    console.log("user", auth.currentUser.uid);
+    setUserId(auth.currentUser.uid)
+    getUserInfo(auth.currentUser.uid)
+  }, [userId]);
 
     return (
+        <div>
         <div className="profDiv">
           <Card style={{ width: '18rem' }}>
             <Card.Img variant="top" src={image} />
@@ -67,7 +57,7 @@ const Profile = () => {
               <ListGroupItem>Facebook: {facebook}</ListGroupItem>
               <ListGroupItem>{email}</ListGroupItem>
               <ListGroupItem>Prefered Contact Method</ListGroupItem>
-              <ListGroupItem>Referee? {(isRef ? "Yes" : "No")}</ListGroupItem>
+              <ListGroupItem>is Referee? {(isref ? "yes" : "no")}</ListGroupItem>
             </ListGroup>
             <Card.Body>
               <Card.Link onClick={ () => profileUpdate() } href="#">Update Profile</Card.Link>
@@ -76,7 +66,9 @@ const Profile = () => {
           </Card>
 
         </div>
+
+        </div>
     )
 }
 
-export default Profile
+export default UpdateProfile

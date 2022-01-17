@@ -19,6 +19,7 @@ import ViewGame from './components/viewGame/ViewGame'
 import EditGame from './components/viewGame/EditGame'
 import HomePage from './components/homePage/HomePage'
 import Profile from './components/profile/Profile'
+import UpdateProfile from './components/profile/UpdateProfile'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path=":id" element={<EditGame />} />
         </Route >
         <Route path="profile" element={ <Profile /> } />
+        <Route path="updateprofile" element={ <UpdateProfile /> } />
       </Routes>
 
 

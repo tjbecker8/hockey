@@ -114,6 +114,12 @@ const UpdateProfile = () => {
     );
     }
 
+    const selectImage = () => {
+      if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+    }
+
 
     return (
         <div>
@@ -126,7 +132,7 @@ const UpdateProfile = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Profile Picture</Form.Label>
-              <Form.Control type="file" />
+              <Form.Control type="file" onChange={selectImage}/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">

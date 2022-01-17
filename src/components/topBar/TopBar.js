@@ -35,7 +35,7 @@ const TopBar = () => {
                 <Nav.Link href="/schedule">Schedule</Nav.Link>
                 <Nav.Link href="/viewgame">Link</Nav.Link>
               <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
+                <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">My Games</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Availability</NavDropdown.Item>
                 <NavDropdown.Divider />

@@ -23,7 +23,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore()
-export const storage = firebase.storage();
+export const storage = getStorage(app, "gs://refsched-7a9be.appspot.com");
+
 
 
 export const auth = getAuth();

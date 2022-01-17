@@ -115,7 +115,7 @@ const UpdateProfile = () => {
     );
     }
 
-    const selectImage = () => {
+    const selectImage = (e) => {
       if (e.target.files[0]) {
       setImage(e.target.files[0]);
       setNewImage(true)

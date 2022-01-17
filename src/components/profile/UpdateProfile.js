@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import './profile.css'
-import { auth, db } from '../../firebase';
+import { auth, db, storage } from '../../firebase';
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Form from 'react-bootstrap/Form'
@@ -20,6 +20,9 @@ const UpdateProfile = () => {
   const [email, setEmail] = useState('')
   const [userId, setUserId] = useState("1")
   const [isRef, setIsRef] = useState(false)
+  const [imageChange, setImageChange] = useState(false)
+  const [url, setUrl] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const auth = getAuth();
 
@@ -84,6 +87,31 @@ const UpdateProfile = () => {
 
     const refChange = () => {
       setIsRef(!isRef)
+    }
+
+    const imageUpload = () => {
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+      uploadTask.on(
+      "state_changed",
+      snapshot => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progress);
+      },
+      error => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+          .then(url => {
+            setUrl(url);
+          });
+      }
+    );
     }
 
 

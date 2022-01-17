@@ -11,18 +11,19 @@ import Button from 'react-bootstrap/Button'
 
 const UpdateProfile = () => {
 
-  ///should actually do everything through props
+  ///need to change around image, to be urls
 
   const [name, setName] = useState('Tom Becker')
-  const [image, setImage] = useState("https://firebasestorage.googleapis.com/v0/b/refsched-7a9be.appspot.com/o/Screen%20Shot%202022-01-17%20at%2012.24.10%20PM.png?alt=media&token=52cfbbac-08ab-4d3e-86a2-387cc438f462")
+  const [image, setImage] = useState('')
+  const [url, setUrl] = useState("https://firebasestorage.googleapis.com/v0/b/refsched-7a9be.appspot.com/o/Screen%20Shot%202022-01-17%20at%2012.24.10%20PM.png?alt=media&token=52cfbbac-08ab-4d3e-86a2-387cc438f462")
   const [phone, setPhone] = useState('')
   const [facebook, setFacebook] = useState('')
   const [email, setEmail] = useState('')
   const [userId, setUserId] = useState("1")
   const [isRef, setIsRef] = useState(false)
   const [imageChange, setImageChange] = useState(false)
-  const [url, setUrl] = useState("");
   const [progress, setProgress] = useState(0);
+  const [newImage, setNewImage] = useState(false)
 
   const auth = getAuth();
 
@@ -36,7 +37,7 @@ const UpdateProfile = () => {
       setEmail(data.email)
       setPhone(data.phone)
       setIsRef(data.isRef)
-      setImage(data.image)
+      setUrl(data.image)
       setFacebook(data.facebook)
     } else {
       // doc.data() will be undefined in this case
@@ -50,15 +51,14 @@ const UpdateProfile = () => {
     getUserInfo(auth.currentUser.uid)
   }, [userId]);
 
-  const profileUpdate = (e) => {
-      e.preventDefault();
+  const profileUpdate = () => {
       const userRef = doc(db, "users", userId)
         updateDoc(userRef, {
           displayName: name,
           email: email,
           phone: phone,
           facebook: facebook,
-          image: image,
+          image: url,
           isRef: isRef,
         })
       console.log("Document updated with ID: ", userRef.id);
@@ -109,6 +109,7 @@ const UpdateProfile = () => {
           .getDownloadURL()
           .then(url => {
             setUrl(url);
+            profileUpdate()
           });
       }
     );
@@ -117,7 +118,17 @@ const UpdateProfile = () => {
     const selectImage = () => {
       if (e.target.files[0]) {
       setImage(e.target.files[0]);
+      setNewImage(true)
     }
+    }
+
+    const handleUpdate = (e) => {
+      e.preventDefault()
+      if (newImage == true) {
+        imageUpload()
+      } else {
+        profileUpdate()
+      }
     }
 
 
@@ -125,7 +136,7 @@ const UpdateProfile = () => {
         <div>
         <div className="profDiv">
         <h2>Update Profile</h2>
-          <Form onSubmit={profileUpdate}>
+          <Form onSubmit={handleUpdate}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Display Name</Form.Label>
               <Form.Control type="text" placeholder='Display Name' onChange={nameChange} />

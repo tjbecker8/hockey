@@ -28,3 +28,4 @@ export const storage = getStorage(app, "gs://refsched-7a9be.appspot.com");
 
 
 export const auth = getAuth();
+export const user = auth.currentUser;

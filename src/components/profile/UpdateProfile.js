@@ -25,7 +25,7 @@ const UpdateProfile = () => {
   const [progress, setProgress] = useState(0);
   const [newImage, setNewImage] = useState(false)
 
-  const auth = getAuth();
+
 
   const getUserInfo =  async (id) => {
     const docRef = doc(db, "users", id);
@@ -45,10 +45,16 @@ const UpdateProfile = () => {
     }
   }
 
+  const getUserId = async () => {
+    const userInfo = await auth.currentUser.uid
+    console.log("auth", userInfo);
+    const uid = userInfo.currentUser.uid
+    setUserId(uid)
+    getUserInfo(uid)
+  }
+
   useEffect(() => {
-    console.log("user", auth.currentUser.uid);
-    setUserId(auth.currentUser.uid)
-    getUserInfo(auth.currentUser.uid)
+    getUserId()
   }, [userId]);
 
   const profileUpdate = () => {
@@ -89,6 +95,8 @@ const UpdateProfile = () => {
       setIsRef(!isRef)
     }
 
+
+///does not work
     const imageUpload = () => {
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
       uploadTask.on(
@@ -122,6 +130,7 @@ const UpdateProfile = () => {
     }
     }
 
+
     const handleUpdate = (e) => {
       e.preventDefault()
       if (newImage == true) {
@@ -141,10 +150,7 @@ const UpdateProfile = () => {
               <Form.Label>Display Name</Form.Label>
               <Form.Control type="text" placeholder='Display Name' onChange={nameChange} />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Profile Picture</Form.Label>
-              <Form.Control type="file" onChange={selectImage}/>
-            </Form.Group>
+
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Phone</Form.Label>

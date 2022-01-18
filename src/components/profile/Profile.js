@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import './profile.css'
-import { auth, db } from '../../firebase';
+import { auth, db, user } from '../../firebase';
 import { getAuth, updateProfile } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -20,7 +20,7 @@ const Profile = () => {
   const [userId, setUserId] = useState("1")
   const [isRef, setIsRef] = useState(false)
 
-  const auth = getAuth();
+
 
 
 
@@ -49,10 +49,18 @@ const Profile = () => {
 
     }
 
+    const getUserId = async () => {
+      const userInfo = await auth
+      console.log("auth", auth);
+      const uid = userInfo.currentUser.uid
+      setUserId(uid)
+      getUserInfo(uid)
+    }
+
+
+
     useEffect(() => {
-      console.log("user", auth.currentUser.uid);
-      setUserId(auth.currentUser.uid)
-      getUserInfo(auth.currentUser.uid)
+      getUserId()
     }, [userId]);
 
     return (

@@ -29,8 +29,8 @@ const Schedule = () => {
         data: doc.data(),
         id: doc.id,
       }])
-});
-  }
+        });
+          }
 
   const getUser = async () => {
   await onAuthStateChanged(auth, (user) => {

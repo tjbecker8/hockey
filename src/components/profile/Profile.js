@@ -60,7 +60,7 @@ const Profile = () => {
 
 
     useEffect(() => {
-      getUserId()
+      // getUserId()
     }, [userId]);
 
     return (

@@ -3,11 +3,15 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import './Login.css'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import {
+  useNavigate
+} from "react-router-dom";
 
 
 //need to add button for sending password reset link to email
 const Login = () => {
+
+  const navigate = useNavigate();
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -18,6 +22,7 @@ const Login = () => {
     // Signed in
       const user = userCredential.user;
       console.log("user", user);
+      navigate('/schedule')
     // ...
     })
       .catch((error) => {
@@ -41,7 +46,6 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log("login button works");
     loginAuth()
   }
 

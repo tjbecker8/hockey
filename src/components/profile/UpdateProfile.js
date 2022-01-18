@@ -48,9 +48,9 @@ const UpdateProfile = () => {
   const getUserId = async () => {
     const userInfo = await auth.currentUser.uid
     console.log("auth", userInfo);
-    const uid = userInfo.currentUser.uid
-    setUserId(uid)
-    getUserInfo(uid)
+    const uid = userInfo
+    // setUserId(uid)
+    // getUserInfo(uid)
   }
 
   useEffect(() => {

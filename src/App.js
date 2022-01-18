@@ -6,7 +6,8 @@ import {
   Route,
   Link,
   Outlet,
-  useParams
+  useParams,
+  Navigate,
 } from "react-router-dom";
 
 
@@ -21,26 +22,35 @@ import HomePage from './components/homePage/HomePage'
 import Profile from './components/profile/Profile'
 import UpdateProfile from './components/profile/UpdateProfile'
 
+
+
+
+
+
 function App() {
+
+
   return (
     <div className="App">
       <TopBar />
-      <Routes>
-        <Route path="/" element={ <HomePage/> } />
-        <Route path="schedule" element={ <Schedule /> } />
 
-        <Route path="newgame" element={ <NewGame /> } />
-        <Route path="newuser" element={ <NewUser /> } />
-        <Route path="login" element={ <Login /> } />
-        <Route path="viewgame" element={ <ViewGame /> } >
-          <Route path=":id" element={<ViewGame />} />
-        </Route >
-        <Route path="editgame" element={ <EditGame />  } >
-          <Route path=":id" element={<EditGame />} />
-        </Route >
-        <Route path="profile" element={ <Profile /> } />
-        <Route path="updateprofile" element={ <UpdateProfile /> } />
-      </Routes>
+
+        <Routes>
+          <Route path="/" element={ <HomePage/> } />
+          <Route path="schedule" element={ <Schedule /> } />
+          <Route path="newgame" element={ <NewGame /> } />
+          <Route path="newuser" element={ <NewUser /> } />
+          <Route path="login" element={ <Login /> } />
+          <Route path="viewgame" element={ <ViewGame /> } >
+            <Route path=":id" element={<ViewGame />} />
+          </Route >
+          <Route path="editgame" element={ <EditGame />  } >
+            <Route path=":id" element={<EditGame />} />
+          </Route >
+          <Route path="profile" element={ <Profile /> } />
+          <Route path="updateprofile" element={ <UpdateProfile /> } />
+        </Routes>
+
 
 
 

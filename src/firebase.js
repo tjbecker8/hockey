@@ -4,6 +4,7 @@ import "firebase/auth";
 import { getFirestore } from "firebase/firestore"
 import { getStorage, ref } from "firebase/storage";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useState, useEffect, useContext, createContext } from 'react'
 
 
 
@@ -28,4 +29,15 @@ export const storage = getStorage(app, "gs://refsched-7a9be.appspot.com");
 
 
 export const auth = getAuth();
-export const user = auth.currentUser;
+// export const user = auth.currentUser;
+
+export const getUser = async () => {
+  await onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid;
+    console.log("user", uid);
+  } else {
+  console.log("no user");
+  }
+});
+}

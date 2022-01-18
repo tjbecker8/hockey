@@ -6,7 +6,9 @@ import Game from './Game.js'
 import Col from 'react-bootstrap/Col'
 import './Schedule.css';
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from '../../firebase';
+import { db, auth, } from '../../firebase';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 
 
 
@@ -14,7 +16,7 @@ import { db } from '../../firebase';
 
 const Schedule = () => {
   const [games, setGames] = useState([])
-  const [id, setid] = useState(1)
+  const [id, setId] = useState(1)
 
   const getGames = async () => {
     const today = new Date()
@@ -26,12 +28,23 @@ const Schedule = () => {
         data: doc.data(),
         id: doc.id,
       }])
-
 });
+  }
 
+  const getUser = () => {
+    onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      console.log("user", uid);
+      setId(uid)
+    } else {
+    console.log("no user");
+    }
+  });
   }
 
   useEffect(() => {
+    getUser()
     getGames()
   }, [id]);
 

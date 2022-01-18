@@ -28,9 +28,10 @@ const Game = (props) => {
   let navigate = useNavigate();
 
   const clicked = () => {
-    console.log("clicked the hsit");
     navigate(`/viewgame/${id}`)
   }
+
+  
 
   useEffect(() => {
 

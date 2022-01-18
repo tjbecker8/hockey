@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button'
-import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc, setDoc } from "firebase/firestore";
 import { db, auth, } from '../../firebase';
 import GameAssignVerify from './GameAssignVerify'
 import DropdownButton from 'react-bootstrap/DropdownButton'
@@ -12,23 +12,9 @@ const GameAssign = (props) => {
   const [id, setId] = useState('')
   const [assigned, setAssigned] = useState(false)
   const [requests, setRequests] = useState([])
-  const [test, setTest] = useState([{
-    name: "one",
-    id: 1,
-  }, {
-    name: "two",
-    id: 2,
-  }, {
-    name: "three",
-    id: 4,
-  }, {
-    name: "four",
-    id: 5,
-  }, {
-    name: "five",
-    id: 5,
-  }
-])
+  const [refId, setRefId] = useState('')
+  const [refName, setRefName] = useState('')
+  const [accepted, setAccepted] = useState(false)
 
 
 
@@ -40,13 +26,19 @@ const GameAssign = (props) => {
         assigned: true,
       })
       if (requests.length < 4) {
-        requests.foreach((ref) => {
-          const gameOfficialsRef = doc(db, "games", id, "officials", ref.id), {
-            user: ref.id,
-            name: ref.name,
-            assigned: true,
-            accepted: false,
-          }
+
+        console.log("requests", requests);
+        requests.forEach((ref) => {
+
+          const gameOfficialsRef = doc(db, "games", id, "officials", ref.id)
+          setDoc(gameOfficialsRef, {
+            user: refId,
+            name: refName,
+            assigned: assigned,
+            accepted: accepted,
+          })
+
+        console.log("doc written");
         })
       } else {
         console.log("more than 3 refs, still need to set up");
@@ -69,7 +61,7 @@ const GameAssign = (props) => {
   }
 
   useEffect(() => {
-    console.log("test", test[1].name);
+    
     setId(props.info.id)
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
     let localDate = thisDate.toLocaleString()

@@ -48,10 +48,6 @@ const AssignGames = () => {
              <GameAssign info={i} key={index} />
             )})
           }
-              <GameAssign />
-              <GameAssign />
-              <GameAssign />
-              <GameAssignVerify />
             </tbody>
           </Table>
         </div>

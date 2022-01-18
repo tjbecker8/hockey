@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 const GameAssignVerify = () => {
-    return (
 
+  const [date, setDate] = useState('')
+  const [id, setId] = useState('')
+  const [assigned, setAssigned] = useState(false)
+
+  const Assign = () => {
+    setAssigned(!assigned)
+  }
+
+    return (
           <tr>
             <td>Date</td>
             <td>grade</td>
@@ -30,7 +38,9 @@ const GameAssignVerify = () => {
                 <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
               </DropdownButton>
             </td>
-            <td><Button variant="info">Assign</Button></td>
+            {(!assigned ?
+            <td><Button variant="info" onClick={() => {Assign()}}>Assign</Button></td> : <td><Button variant="success" onClick={() => {Assign()}}>Assigned</Button></td>
+          )}
           </tr>
     )
 }

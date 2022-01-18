@@ -14,7 +14,7 @@ const GameAssignVerify = () => {
   }
 
     return (
-          <tr>
+          <div>
             <td>Date</td>
             <td>grade</td>
             <td>
@@ -41,7 +41,7 @@ const GameAssignVerify = () => {
             {(!assigned ?
             <td><Button variant="info" onClick={() => {Assign()}}>Assign</Button></td> : <td><Button variant="success" onClick={() => {Assign()}}>Assigned</Button></td>
           )}
-          </tr>
+        </div>
     )
 }
 

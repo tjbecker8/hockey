@@ -11,7 +11,7 @@ const GameAssign = (props) => {
   const [assigned, setAssigned] = useState(false)
   const [requests, setRequests] = useState([])
 
-  const length = requests.length
+
 
 
   const Assign = () => {
@@ -44,22 +44,17 @@ const GameAssign = (props) => {
     }, []);
 
     return (
+      <tr>
+      <td>{date}</td>
+      <td>G{props.info.data.grade}</td>
+      <td>ref</td>
+      <td>ref</td>
+      <td>line</td>
+      {(!assigned ?
+      <td><Button variant="info" onClick={() => {Assign()}}>Assign</Button></td> : <td><Button variant="success" onClick={() => {Assign()}}>Assigned</Button></td>
+    )}
 
-
-
-          <tr>
-            <td>{date}</td>
-            <td>G{props.info.data.grade}</td>
-            <td>ref</td>
-            <td>ref</td>
-            <td>line</td>
-
-            {(!assigned ?
-            <td><Button variant="info" onClick={() => {Assign()}}>Assign</Button></td> : <td><Button variant="success" onClick={() => {Assign()}}>Assigned</Button></td>
-          )}
-
-          </tr>
-
+      </tr>
         )
   }
 

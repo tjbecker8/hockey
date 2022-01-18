@@ -15,6 +15,7 @@ const GameAssign = (props) => {
   const [refId, setRefId] = useState('')
   const [refName, setRefName] = useState('')
   const [accepted, setAccepted] = useState(false)
+  const [jsDate, setJsDate] = useState(null)
 
 
 
@@ -26,7 +27,6 @@ const GameAssign = (props) => {
         assigned: true,
       })
       if (requests.length < 4) {
-
         console.log("requests", requests);
         requests.forEach((ref) => {
 
@@ -36,6 +36,12 @@ const GameAssign = (props) => {
             name: refName,
             assigned: assigned,
             accepted: accepted,
+          })
+          const officialsGamesRef = doc(db, "users", ref.id, "games", id)
+          setDoc(officialsGamesRef, {
+            game: id,
+            accepted: accepted,
+            date: jsDate,
           })
 
         console.log("doc written");
@@ -61,12 +67,14 @@ const GameAssign = (props) => {
   }
 
   useEffect(() => {
-    
+
     setId(props.info.id)
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
     let localDate = thisDate.toLocaleString()
+    setJsDate(thisDate)
     setDate(localDate)
     getRequests(props.info.id)
+    setAssigned(props.info.data.assigned)
     }, []);
 
     return (

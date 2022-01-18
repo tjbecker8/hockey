@@ -25,26 +25,30 @@ const Game = (props) => {
   const [date, setDate] = useState('')
   const [id, setId] = useState('')
   const [requested, setRequested] = useState(false)
+  const [userId, setUserId] = useState(null)
+
   let navigate = useNavigate();
 
   const clicked = () => {
     navigate(`/viewgame/${id}`)
   }
 
-  
+
 
   useEffect(() => {
 
     setId(props.info.id)
+    setUserId(props.user)
+    console.log("game user Id", props.user);
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
     setDate(thisDate.toISOString().split(':', 2).join(":"))
   });
 
   const clickRequest = () => {
     console.log("request clicked");
-    const gameRef = doc(db, "games", id, "requested", "userId")
+    const gameRef = doc(db, "games", id, "requested", userId)
       setDoc(gameRef, {
-        user: "userId",
+        user: userId,
       })
       console.log("Document updated with ID: ", gameRef.id);
 

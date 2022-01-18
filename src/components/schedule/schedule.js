@@ -24,19 +24,21 @@ const Schedule = () => {
     const querySnapshot = await getDocs(collection(db, "games"), where("dateTime", ">=", yesterday));
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
-      setGames(games => [ ... games, { //not working//
+      console.log("game", doc.data());
+      setGames(games => [ ... games, {
         data: doc.data(),
         id: doc.id,
       }])
 });
   }
 
-  const getUser = () => {
-    onAuthStateChanged(auth, (user) => {
+  const getUser = async () => {
+  await onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
-      console.log("user", uid);
+      // console.log("user", uid);
       setId(uid)
+      getGames()
     } else {
     console.log("no user");
     }
@@ -45,8 +47,7 @@ const Schedule = () => {
 
   useEffect(() => {
     getUser()
-    getGames()
-  }, [id]);
+  }, []);
 
 
 
@@ -69,7 +70,7 @@ const Schedule = () => {
 
         { games.map((i, index) => {
           return (
-         <Game info={i} key={index} />
+         <Game info={i} user={id} key={index} />
         )})
       }
 

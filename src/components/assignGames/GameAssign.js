@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button'
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db, auth, } from '../../firebase';
 import GameAssignVerify from './GameAssignVerify'
 import DropdownButton from 'react-bootstrap/DropdownButton'
@@ -12,12 +12,46 @@ const GameAssign = (props) => {
   const [id, setId] = useState('')
   const [assigned, setAssigned] = useState(false)
   const [requests, setRequests] = useState([])
+  const [test, setTest] = useState([{
+    name: "one",
+    id: 1,
+  }, {
+    name: "two",
+    id: 2,
+  }, {
+    name: "three",
+    id: 4,
+  }, {
+    name: "four",
+    id: 5,
+  }, {
+    name: "five",
+    id: 5,
+  }
+])
 
 
 
 
-  const Assign = () => {
+  const Assign = async () => {
     setAssigned(!assigned)
+    const gameRef = doc(db, "games", id)
+      updateDoc(gameRef, {
+        assigned: true,
+      })
+      if (requests.length < 4) {
+        requests.foreach((ref) => {
+          const gameOfficialsRef = doc(db, "games", id, "officials", ref.id), {
+            user: ref.id,
+            name: ref.name,
+            assigned: true,
+            accepted: false,
+          }
+        })
+      } else {
+        console.log("more than 3 refs, still need to set up");
+      }
+
   }
 
   const getRequests = async (i) => {
@@ -30,14 +64,12 @@ const GameAssign = (props) => {
         id: doc.id,
         name: doc.data().name
       }])
-
-      console.log(doc.id, " => ", doc.data());
     });
 
   }
 
   useEffect(() => {
-    console.log("mm", requests.length);
+    console.log("test", test[1].name);
     setId(props.info.id)
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
     let localDate = thisDate.toLocaleString()
@@ -49,28 +81,40 @@ const GameAssign = (props) => {
       <tr>
       <td>{date}</td>
       <td>G{props.info.data.grade}</td>
-      {(requests.length < 4 ? <td>ref</td> : <td>
+      {(requests.length < 4 ? <td>{(requests[0] != undefined ? requests[0].name : "ref")}</td> : <td>
         <DropdownButton id="dropdown-basic-button" title="Ref" variant="secondary">
-          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        {
+          requests.map((i, index) => {
+            return(
+              <Dropdown.Item href="#/action-1">{i.name}</Dropdown.Item>
+            )
+          })
+        }
         </DropdownButton>
       </td> )}
 
-      {(requests.length < 4 ? <td>ref/line</td> : <td>
+      {(requests.length < 4 ? <td>{(requests[1] != undefined ? requests[1].name : "ref/line")}</td> : <td>
         <DropdownButton id="dropdown-basic-button" title="Ref" variant="secondary">
-          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        {
+          requests.map((i, index) => {
+            return(
+              <Dropdown.Item href="#/action-1">{i.name}</Dropdown.Item>
+            )
+          })
+        }
         </DropdownButton>
       </td> )}
 
 
-      {(requests.length < 4 ? <td>line</td> : <td>
+      {(requests.length < 4 ? <td>{(requests[2] != undefined ? requests[2].name : "line")}</td> : <td>
         <DropdownButton id="dropdown-basic-button" title="Ref" variant="secondary">
-          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        {
+          requests.map((i, index) => {
+            return(
+              <Dropdown.Item href="#/action-1">{i.name}</Dropdown.Item>
+            )
+          })
+        }
         </DropdownButton>
       </td> )}
 

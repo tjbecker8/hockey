@@ -14,7 +14,7 @@ import {
 
 const ViewGame = (props) => {
   const [open, setOpen] = useState(false);
-  const [notes, setNotes] = useState('no notes yet')
+  const [notes, setNotes] = useState('')
   const [game, setGame] = useState({dateTime: new Date(), grade:"1"});
   const [date, setDate] = useState('')
   const [grade, setGrade] =useState('')
@@ -44,7 +44,8 @@ const ViewGame = (props) => {
       setRefline(docSnap.data().refline)
       let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
       setDate(thisDate)
-      setDatedisplay(thisDate.toISOString().split(':', 2).join(":"))
+      let localDate = thisDate.toLocaleString()
+      setDatedisplay(localDate)
     } else {
       console.log("No such document!");
     }

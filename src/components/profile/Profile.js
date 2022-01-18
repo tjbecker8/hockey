@@ -4,21 +4,28 @@ import ListGroup from 'react-bootstrap/ListGroup'
 import ListGroupItem from 'react-bootstrap/ListGroupItem'
 import './profile.css'
 import { auth, db, user } from '../../firebase';
-import { getAuth, updateProfile } from "firebase/auth";
+import { getAuth, updateProfile, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
 
 
 
 const Profile = () => {
 
 
-  const [name, setName] = useState('Tom Becker')
+  const [name, setName] = useState('Referee')
   const [image, setImage] = useState("https://firebasestorage.googleapis.com/v0/b/refsched-7a9be.appspot.com/o/Screen%20Shot%202022-01-17%20at%2012.24.10%20PM.png?alt=media&token=52cfbbac-08ab-4d3e-86a2-387cc438f462")
-  const [phone, setPhone] = useState('555-5555')
-  const [facebook, setFacebook] = useState('empty link')
-  const [email, setEmail] = useState('me@here.com')
+  const [phone, setPhone] = useState('')
+  const [facebook, setFacebook] = useState('')
+  const [email, setEmail] = useState('')
   const [userId, setUserId] = useState("1")
   const [isRef, setIsRef] = useState(false)
+
+  let navigate = useNavigate();
 
 
 
@@ -46,21 +53,26 @@ const Profile = () => {
 
 
   const profileUpdate = () => {
-
+    navigate(`/updateprofile`)
     }
 
     const getUserId = async () => {
-      const userInfo = await auth
-      console.log("auth", auth);
-      const uid = userInfo.currentUser.uid
-      setUserId(uid)
-      getUserInfo(uid)
+    await onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        // console.log("user", uid);
+        setUserId(uid)
+        getUserInfo(uid)
+      } else {
+      console.log("no user");
+      }
+    });
     }
 
 
 
     useEffect(() => {
-      // getUserId()
+      getUserId()
     }, [userId]);
 
     return (

@@ -33,26 +33,54 @@ const Game = (props) => {
     navigate(`/viewgame/${id}`)
   }
 
+  const getRequests = async (i, u) => {
+    const docRef = doc(db, "games", i, "requested", u);
+    const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const req = docSnap.data().requested
+        // console.log("req", req);
+        if (req == true ) {
+          setRequested(true)
+        }
+      }
+  }
+
 
 
   useEffect(() => {
 
     setId(props.info.id)
+    getRequests(props.info.id, props.user)
     setUserId(props.user)
-    console.log("game user Id", props.user);
+    // console.log("game user Id", props.user);
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
-    setDate(thisDate.toISOString().split(':', 2).join(":"))
-  });
 
+    let localDate = thisDate.toLocaleString()
+    console.log("local", localDate);
+    setDate(localDate)
+  }, []);
+
+
+//need to add update to individual user profile to find games faster
   const clickRequest = () => {
     console.log("request clicked");
     const gameRef = doc(db, "games", id, "requested", userId)
+    if (!requested) {
+    setRequested(!requested)
       setDoc(gameRef, {
         user: userId,
+        requested: true
       })
-      console.log("Document updated with ID: ", gameRef.id);
-
+    } else {
+      setDoc(gameRef, {
+        user: userId,
+        requested: false
+      })
+      setRequested(!requested)
+    }
   }
+
+
 
 
 

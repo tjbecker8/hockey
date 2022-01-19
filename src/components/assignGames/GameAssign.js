@@ -21,6 +21,7 @@ const GameAssign = (props) => {
 
 
   const Assign = async () => {
+    if (!assigned) {
     setAssigned(!assigned)
     const gameRef = doc(db, "games", id)
       updateDoc(gameRef, {
@@ -49,6 +50,9 @@ const GameAssign = (props) => {
       } else {
         console.log("more than 3 refs, still need to set up");
       }
+    } else {
+      console.log("game already assigned");
+    }
 
   }
 

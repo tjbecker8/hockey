@@ -22,6 +22,7 @@ import HomePage from './components/homePage/HomePage'
 import Profile from './components/profile/Profile'
 import UpdateProfile from './components/profile/UpdateProfile'
 import AssignGames from './components/assignGames/AssignGames'
+import MyGames from './components/myGames/MyGames'
 
 
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="profile" element={ <Profile /> } />
           <Route path="updateprofile" element={ <UpdateProfile /> } />
           <Route path="assigngames" element={ <AssignGames /> } />
+          <Route path='mygames' element={ <MyGames />} />
         </Routes>
 
 

@@ -9,6 +9,7 @@ import {
   useParams,
   Navigate,
 } from "react-router-dom";
+import PrivateRoute from "./privateRoute"
 
 
 import Schedule from './components/schedule/schedule'
@@ -51,7 +52,12 @@ function App() {
           <Route path="profile" element={ <Profile /> } />
           <Route path="updateprofile" element={ <UpdateProfile /> } />
           <Route path="assigngames" element={ <AssignGames /> } />
-          <Route path='mygames' element={ <MyGames />} />
+          <Route path='mygames' element={
+            <PrivateRoute >
+              <MyGames />
+            </PrivateRoute>
+          }/>
+
         </Routes>
 
 

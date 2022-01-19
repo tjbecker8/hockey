@@ -28,7 +28,13 @@ const Login = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("err");
+        console.log("errCode", errorCode);
+        console.log("errmss", errorMessage);
+        if (errorCode == "auth/wrong-password") {
+          alert("Wrong Password")
+        } if (errorCode == "auth/user-not-found") {
+          alert("User Not Found")
+        }
       });
   }
 
@@ -49,11 +55,15 @@ const Login = () => {
     loginAuth()
   }
 
+  const goToSignUp = () => {
+    navigate('/signup')
+  }
+
 
     return (
         <div className='loginDiv'>
         <h3>Login</h3>
-        <h5>Sign up for an account <a id="here">here</a></h5>
+        <h5>Sign up for an account <a id="here" onClick={ () => {goToSignUp()}}>here</a></h5>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -67,6 +77,7 @@ const Login = () => {
           <Button variant="primary" type="submit">
             Submit
           </Button>
+          <p>Forgot your Password? Reset it here</p>
         </Form>
 
         </div>

@@ -56,6 +56,10 @@ const Profile = () => {
     navigate(`/updateprofile`)
     }
 
+  const MyGames = () => {
+    navigate(`/mygames`)
+    }
+
     const getUserId = async () => {
     await onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -91,7 +95,7 @@ const Profile = () => {
             </ListGroup>
             <Card.Body>
               <Card.Link onClick={ () => profileUpdate() } href="#">Update Profile</Card.Link>
-              <Card.Link href="#">My Games</Card.Link>
+              <Card.Link href="#" onClick={ () => MyGames() }>My Games</Card.Link>
             </Card.Body>
           </Card>
 

@@ -26,6 +26,9 @@ const [uid, setUid] = useState('')
   const AcceptGame = () => {
     if (!confirmed) {
       setConfirmed(!confirmed)
+      confirmGame()
+    } else {
+      console.log("game already confirmed");
     }
   }
 
@@ -38,6 +41,8 @@ const [uid, setUid] = useState('')
     await updateDoc(refGameRef, {
       accepted: true
     });
+    //need function to set the ref, ref/line, or line slot
+
 
   }
 
@@ -48,7 +53,7 @@ const [uid, setUid] = useState('')
         <td>Ref</td>
         <td>ref/Line</td>
         <td>Line</td>
-        <td>{(!confirmed ? <Button variant="warning" onClick={() => {AcceptGame()}}>Accept Game</Button> : <Button variant="success">Game Accepted</Button>)}</td>
+        <td>{(!confirmed ? <Button variant="warning" onClick={() => {AcceptGame()}}>Accept Game</Button> : <Button variant="success" onClick={() => {AcceptGame()}}>Game Accepted</Button>)}</td>
       </tr>
     )
 }

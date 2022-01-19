@@ -1,23 +1,31 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Route, Navigate } from "react-router-dom";
 import { AuthContext } from "./auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase"
 
-const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
-  const {currentUser} = useContext(AuthContext);
-  console.log("currentuser", currentUser);
-  return (
-    <Route
-      {...rest}
-      render={routeProps =>
-        !!currentUser ? (
-          <RouteComponent {...routeProps} />
-        ) : (
-          <Navigate to={"/login"} />
-        )
-      }
-    />
-  );
-};
+const PrivateRoute = ({ children }) => {
+  const user = false
+
+
+      return user ? children : <Navigate to="/login" />;
+
+
+
+
+  // console.log("...", user);
+  // return auth.currentUser ? children : <Navigate to="/login" />;
+}
+
+// const PrivateRoute = ({ children }) => {
+//   onAuthStateChanged(auth, (user) => {
+//     if (user) {
+//       return children;
+//     } else {
+//       <Navigate to={"/login"} />
+//     }
+//   });
+// }
 
 
 export default PrivateRoute

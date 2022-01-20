@@ -51,7 +51,11 @@ function App() {
         <TopBar />
         <Routes>
           <Route path="/" element={ <HomePage/> } />
-          <Route path="schedule" element={ <Schedule /> } />
+          <Route path="schedule" element={
+              <PrivateRoute>
+                <Schedule />
+              </PrivateRoute>
+            } />
           <Route path="newgame" element={
             <PrivateRoute>
               <NewGame />

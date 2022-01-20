@@ -8,6 +8,7 @@ import './Schedule.css';
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db, auth, } from '../../firebase';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Table from 'react-bootstrap/Table'
 
 
 
@@ -55,27 +56,29 @@ const Schedule = () => {
 
     return (
         <div className='topDiv'>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Grade</th>
+                <th>Ref</th>
+                <th>Ref/Line</th>
+                <th>Line</th>
+                <th>notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              { games.map((i, index) => {
+                return (
+               <Game info={i} user={id} key={index} />
+              )})
+            }
+            </tbody>
+          </Table>
 
-        <Stack gap={3}>
-          <Container>
-            <Row>
-              <Col>Date</Col>
-              <Col>Grade</Col>
-              <Col>Ref</Col>
-              <Col>Ref/Line</Col>
-              <Col>Line</Col>
-              <Col>Notes</Col>
-              <Col></Col>
-            </Row>
 
-        { games.map((i, index) => {
-          return (
-         <Game info={i} user={id} key={index} />
-        )})
-      }
 
-        </Container>
-        </Stack>
 
         </div>
     )

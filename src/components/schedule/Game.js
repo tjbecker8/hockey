@@ -56,8 +56,8 @@ const Game = (props) => {
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
 
     let localDate = thisDate.toLocaleString()
-    console.log("local", localDate);
     setDate(localDate)
+    console.log("data", props.info.data);
   }, []);
 
 
@@ -86,20 +86,18 @@ const Game = (props) => {
 
     return (
 
-        <div className="gameDiv" >
 
 
+          <tr className="gameDiv">
 
-          <Row>
 
+            <td>{date}</td>
 
-            <Col>{date}</Col>
-
-            <Col>{props.info.data.grade}</Col>
-            <Col>{props.info.data.ref}</Col>
-            <Col>{props.info.data.refline}</Col>
-            <Col>{props.info.data.line}</Col>
-            <Col>
+            <td>{props.info.data.grade}</td>
+            <td>{props.info.data.ref}</td>
+            <td>{props.info.data.refline}</td>
+            <td>{props.info.data.line}</td>
+            <td>
               <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{props.info.data.notes}</Tooltip>}>
                 <span className="d-inline-block">
                   <p className="gameP" onClick={ () => {clicked()} }>
@@ -107,18 +105,18 @@ const Game = (props) => {
                   </p>
                 </span>
               </OverlayTrigger>
-            </Col>
+            </td>
 
 
-            <Col>{
+            <td>{
                 (requested != true ? <Button variant="primary" onClick={ () => {clickRequest()} } >Request</Button> :
                 <Button variant="success" onClick={ () => {clickRequest()} } >Requested</Button>)
-            }</Col>
-          </Row>
+            }</td>
+        </tr>
 
 
 
-        </div>
+
     )
 }
 

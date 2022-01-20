@@ -28,13 +28,13 @@ const TopBar = () => {
         <div>
           <Navbar bg="light" expand="lg" fixed="top">
             <Container>
-              <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
+              <Navbar.Brand href="/">CIHRA Schedule</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                 <Nav.Link href="/schedule">Schedule</Nav.Link>
                 <Nav.Link href="/viewgame">Link</Nav.Link>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+              <NavDropdown title="User" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">My Games</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Availability</NavDropdown.Item>

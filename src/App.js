@@ -40,13 +40,15 @@ function App() {
 
 
     <div className="App">
-      <TopBar />
+
       {(loading ?
+
         <Spinner animation="border" role="status" className="spinner">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
           :
-
+        <div>
+        <TopBar />
         <Routes>
           <Route path="/" element={ <HomePage/> } />
           <Route path="schedule" element={ <Schedule /> } />
@@ -93,7 +95,7 @@ function App() {
           }/>
 
         </Routes>
-
+        </div>
 )}
 
 

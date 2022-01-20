@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-
+import { AuthContext } from "../../auth";
 import { getAuth, signOut } from "firebase/auth";
 
 
@@ -13,6 +13,15 @@ import { getAuth, signOut } from "firebase/auth";
 
 const TopBar = () => {
   const auth = getAuth();
+  const { currentUser, loading } = useContext(AuthContext);
+  const [user, setUser] = useState(false)
+
+  useEffect(() => {
+    console.log("topbar user", currentUser);
+    if (currentUser) {
+      setUser(currentUser)
+    }
+  }, [])
 
   const logOut = () => {
     signOut(auth).then(() => {
@@ -34,13 +43,16 @@ const TopBar = () => {
                 <Nav className="me-auto">
                 <Nav.Link href="/schedule">Schedule</Nav.Link>
                 <Nav.Link href="/viewgame">Link</Nav.Link>
+                {(!user ? <Nav.Link href="/login">Login/SignUp</Nav.Link>
+                  :
               <NavDropdown title="User" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">My Games</NavDropdown.Item>
+                <NavDropdown.Item href="/mygames">My Games</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Availability</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/" onClick={ ()=>{logOut()} }>Logout</NavDropdown.Item>
               </NavDropdown>
+              )}
             </Nav>
             </Navbar.Collapse>
           </Container>

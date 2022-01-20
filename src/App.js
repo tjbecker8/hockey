@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import PrivateRoute from "./privateRoute"
 import { AuthContext } from "./auth";
+import Spinner from 'react-bootstrap/Spinner'
 
 
 
@@ -34,13 +35,17 @@ import MyGames from './components/myGames/MyGames'
 function App() {
   const { currentUser, loading } = useContext(AuthContext);
 
+
   return (
 
 
     <div className="App">
       <TopBar />
-      {(loading ? <div>Loading ...</div> :
-
+      {(loading ?
+        <Spinner animation="border" role="status" className="spinner">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+          :
 
         <Routes>
           <Route path="/" element={ <HomePage/> } />

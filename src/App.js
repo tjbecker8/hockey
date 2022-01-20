@@ -1,4 +1,4 @@
-
+import { useContext } from "react";
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -10,6 +10,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import PrivateRoute from "./privateRoute"
+import { AuthContext } from "./auth";
+
 
 
 import Schedule from './components/schedule/schedule'
@@ -30,11 +32,14 @@ import MyGames from './components/myGames/MyGames'
 
 
 function App() {
-
+  const { currentUser, loading } = useContext(AuthContext);
 
   return (
+
+
     <div className="App">
       <TopBar />
+      {(loading ? <div>Loading ...</div> :
 
 
         <Routes>
@@ -60,7 +65,7 @@ function App() {
 
         </Routes>
 
-
+)}
 
 
 

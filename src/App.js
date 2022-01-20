@@ -50,18 +50,42 @@ function App() {
         <Routes>
           <Route path="/" element={ <HomePage/> } />
           <Route path="schedule" element={ <Schedule /> } />
-          <Route path="newgame" element={ <NewGame /> } />
+          <Route path="newgame" element={
+            <PrivateRoute>
+              <NewGame />
+            </PrivateRoute>
+           } />
           <Route path="newuser" element={ <NewUser /> } />
           <Route path="login" element={ <Login /> } />
           <Route path="viewgame" element={ <ViewGame /> } >
-            <Route path=":id" element={<ViewGame />} />
+            <Route path=":id" element={
+              <PrivateRoute>
+                <ViewGame />
+              </PrivateRoute>
+            } />
           </Route >
           <Route path="editgame" element={ <EditGame />  } >
-            <Route path=":id" element={<EditGame />} />
+            <Route path=":id" element={
+              <PrivateRoute>
+                <EditGame />
+              </PrivateRoute>
+            } />
           </Route >
-          <Route path="profile" element={ <Profile /> } />
-          <Route path="updateprofile" element={ <UpdateProfile /> } />
-          <Route path="assigngames" element={ <AssignGames /> } />
+          <Route path="profile" element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+           } />
+          <Route path="updateprofile" element={
+            <PrivateRoute>
+              <UpdateProfile />
+            </PrivateRoute>
+           } />
+          <Route path="assigngames" element={
+            <PrivateRoute >
+              <AssignGames />
+            </PrivateRoute>
+          } />
           <Route path='mygames' element={
             <PrivateRoute >
               <MyGames />

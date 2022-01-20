@@ -10,7 +10,7 @@ import {
   Link,
   useNavigate
 } from "react-router-dom";
-import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, setDoc, query, where } from "firebase/firestore";
 import { db } from '../../firebase';
 
 
@@ -26,6 +26,7 @@ const Game = (props) => {
   const [id, setId] = useState('')
   const [requested, setRequested] = useState(false)
   const [userId, setUserId] = useState(null)
+  const [accepted, setAccepted] =useState([])
 
   let navigate = useNavigate();
 
@@ -45,6 +46,19 @@ const Game = (props) => {
       }
   }
 
+  const getAccepted = async (i) => {
+    const q = query(collection(db, "games", i, "requested"), where("accepted", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, " => ", doc.data().name);
+      setAccepted(accepted => [ ... accepted, {
+        Name: doc.data().name,
+        id: doc.id,
+      }])
+    });
+
+  }
+
 
 
   useEffect(() => {
@@ -52,6 +66,7 @@ const Game = (props) => {
     setId(props.info.id)
     getRequests(props.info.id, props.user)
     setUserId(props.user)
+    getAccepted(props.info.id)
     // console.log("game user Id", props.user);
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
 

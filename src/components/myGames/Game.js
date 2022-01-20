@@ -33,7 +33,7 @@ const [uid, setUid] = useState('')
   }
 
   const confirmGame = async () => {
-    const gameRef = doc(db, "games", id, "officials", uid);
+    const gameRef = doc(db, "games", id, "requested", uid);
     await updateDoc(gameRef, {
       accepted: true
     });

@@ -4,11 +4,12 @@ import './ViewGame.css'
 import Button from 'react-bootstrap/Button'
 import Collapse from 'react-bootstrap/Collapse'
 import Form from 'react-bootstrap/Form'
-import { doc, getDoc, Timestamp, getDocs, collection, updateDoc } from "firebase/firestore";
+import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, query } from "firebase/firestore";
 import { db } from '../../firebase';
 import {
   useParams,
 } from 'react-router-dom';
+import Badge from 'react-bootstrap/Badge'
 
 
 
@@ -22,23 +23,35 @@ const ViewGame = (props) => {
   const [refline, setRefline] = useState(null)
   const [line, setLine] = useState(null)
   const [datedisplay, setDatedisplay] = useState('')
+  const [refs, setRefs] = useState([])
   // const [id, setId] = useState(1)
 
 
   const { id } = useParams();
 
+  const getRefs = async () => {
+    const q = query(collection(db, "games", id, "requested"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setRefs(refs => [... refs, {
+        Name: doc.data().name,
+        id: doc.id,
+        accepted: doc.data().accepted,
+        assigned: doc.data().assigned,
+        requested: doc.data().requested,
+      }])
+    })
+  }
+
   const getGame = async () => {
     const docRef = doc(db, "games", id);
     const docSnap = await getDoc(docRef);
-
     if (docSnap.exists()) {
-
       // console.log("Document data:", docSnap.data().grade);
       setGrade(docSnap.data().grade)
       if (docSnap.data().notes.length > 0) {
         setNotes(docSnap.data().notes)
       }
-
       setGame(docSnap.data())
       setRef(docSnap.data().ref)
       setRefline(docSnap.data().refline)
@@ -53,22 +66,20 @@ const ViewGame = (props) => {
 
   useEffect(() => {
     getGame()
+    getRefs()
     console.log("gameid", id);
   }, [id]);
-
   const addNotes = (e) => {
     e.preventDefault()
     setNotes(e.target.value)
   }
 
   const exited = () => {
-
     const gameRef = doc(db, "games", id)
       updateDoc(gameRef, {
         notes: notes,
       })
       console.log("Document updated with ID: ", gameRef.id);
-
   }
 
 
@@ -83,7 +94,11 @@ const ViewGame = (props) => {
             }
           </div>
           <div className="bg-light border">{
-              (ref != null ? ref : "No Ref assigned")
+              (refs[0] && refs[0].assigned == true ?
+                <Badge pill bg={(refs[0].accepted ? "success" : "secondary")}>
+                  {refs[0].Name}
+                </Badge>
+                : "No Ref assigned")
             }</div>
           <div className="bg-light border">{
               (refline != null ? refline : "No Ref/Line assigned" )

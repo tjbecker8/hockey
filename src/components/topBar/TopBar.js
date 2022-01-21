@@ -17,7 +17,7 @@ const TopBar = () => {
   const [user, setUser] = useState(false)
 
   useEffect(() => {
-    console.log("topbar user", currentUser);
+    
     if (currentUser) {
       setUser(currentUser)
     }

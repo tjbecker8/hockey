@@ -6,7 +6,7 @@ import { auth } from "./firebase"
 
 const PrivateRoute = ({ children }) => {
   const { currentUser, loading } = useContext(AuthContext);
-  console.log("useruser", currentUser, loading);
+  
       return currentUser ? children : <Navigate to="/login" />;
 }
 

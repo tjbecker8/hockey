@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Game from './Game.js'
 import Col from 'react-bootstrap/Col'
 import './Schedule.css';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth, } from '../../firebase';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Table from 'react-bootstrap/Table'
@@ -20,6 +20,8 @@ const Schedule = () => {
   const [games, setGames] = useState([])
   const [id, setId] = useState(1)
   const { currentUser, loading } = useContext(AuthContext);
+  const [displayName, setDisplayName] = useState('')
+
 
   const getGames = async () => {
     const today = new Date()
@@ -35,21 +37,24 @@ const Schedule = () => {
         });
           }
 
-  // const getUser = async () => {
-  // await onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     const uid = user.uid;
-  //     // console.log("user", uid);
-  //     setId(uid)
-  //     getGames()
-  //   } else {
-  //   console.log("no user");
-  //   }
-  // });
-  // }
+
+  const getUserInfo = async (uid) => {
+    const userRef = doc(db, "users", uid)
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setDisplayName(docSnap.data().displayName)
+
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+
 
   useEffect(() => {
     setId(currentUser.uid)
+    getUserInfo(currentUser.uid)
     getGames()
   }, []);
 
@@ -74,7 +79,7 @@ const Schedule = () => {
             <tbody>
               { games.map((i, index) => {
                 return (
-               <Game info={i} user={id} key={index} />
+               <Game info={i} user={id} displayName={displayName} key={index} />
               )})
             }
             </tbody>

@@ -61,6 +61,7 @@ const GameAssign = (props) => {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
+      console.log("****", doc.data());
       setRequests(requests => [... requests, {
         data: doc.data(),
         id: doc.id,

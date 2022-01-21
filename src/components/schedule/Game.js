@@ -30,6 +30,7 @@ const Game = (props) => {
   const [accepted, setAccepted] =useState([])
   const [requests, setRequests] = useState([])
   const [userAccepted, setUserAccepted] = useState(false)
+  const [displayName, setDisplayName] = useState('')
 
   let navigate = useNavigate();
 
@@ -86,6 +87,8 @@ const Game = (props) => {
     // getRequests(props.info.id, props.user)
     setUserId(props.user)
     getAccepted(props.info.id)
+    setDisplayName(props.displayName)
+
     // console.log("game user Id", props.user);
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
 
@@ -96,20 +99,26 @@ const Game = (props) => {
 
 
 
-  const clickRequest = () => {
-    console.log("request clicked");
+
+
+  const clickRequest = async () => {
+
     const gameRef = doc(db, "games", id, "requested", userId)
     if (!userAccepted) {
     if (!requested) {
     setRequested(!requested)
-      setDoc(gameRef, {
+      await setDoc(gameRef, {
         user: userId,
-        requested: true
+        requested: true,
+        name: displayName,
       })
+    const gRef = doc(db, "games", id)
+    await updateDoc(gRef, {
+      assigned: false,
+    })
     } else {
-      setDoc(gameRef, {
-        user: userId,
-        requested: false
+      await updateDoc(gameRef, {
+        requested: false,
       })
       setRequested(!requested)
     }

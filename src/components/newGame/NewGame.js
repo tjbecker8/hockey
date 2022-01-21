@@ -9,10 +9,12 @@ const NewGame = () => {
 
   const [date, setDate] = useState(null);
   const [grade, setGrade] = useState('1')
+  const [disabled, setDisabled] = useState(false)
 
 
 
   const handleSubmit = async (e) => {
+    setDisabled(true)
     e.preventDefault();
     if (date && grade != null) {
     const docRef =  await addDoc(collection(db, "games"), {
@@ -24,7 +26,8 @@ const NewGame = () => {
       notes: '',
     });
     console.log("Document written with ID: ", docRef.id);
-    alert("Game Created")
+
+    setDisabled(false)
   } else {
    alert("Date and Time cannot be empty")
  }
@@ -64,7 +67,7 @@ const NewGame = () => {
           </Form.Group>
 
 
-        <Button  variant="primary" type="submit">
+        <Button  variant="primary" type="submit" disabled={disabled}>
           Create Game
         </Button>
 

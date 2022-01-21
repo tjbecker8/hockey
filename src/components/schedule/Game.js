@@ -61,6 +61,7 @@ const Game = (props) => {
       }])
       if (doc.data().assigned === true) {
         console.log("reqtrue", doc.data());
+        /// assigned and accepted are two different things
         setAccepted(accepted => [ ...accepted, {
           Name: doc.data().name,
           id: doc.id,
@@ -77,6 +78,8 @@ const Game = (props) => {
       }
     });
     setRefresh(true)
+    console.log(requests);
+    console.log("meo", accepted);
   }
 
 

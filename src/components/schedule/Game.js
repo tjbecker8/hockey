@@ -111,6 +111,7 @@ const Game = (props) => {
         user: userId,
         requested: true,
         name: displayName,
+        accepted: false,
       })
     const gRef = doc(db, "games", id)
     await updateDoc(gRef, {

@@ -31,12 +31,9 @@ const GameAssign = (props) => {
         console.log("requests", requests);
         requests.forEach((ref) => {
 
-          const gameOfficialsRef = doc(db, "games", id, "officials", ref.id)
-          setDoc(gameOfficialsRef, {
-            user: refId,
-            name: refName,
+          const gameOfficialsRef = doc(db, "games", id, "requested", ref.id)
+          updateDoc(gameOfficialsRef, {
             assigned: assigned,
-            accepted: accepted,
           })
           const officialsGamesRef = doc(db, "users", ref.id, "games", id)
           setDoc(officialsGamesRef, {

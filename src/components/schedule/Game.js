@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Nav from 'react-bootstrap/Nav'
 import Button from 'react-bootstrap/Button'
 import './game.css'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import {
-  Link,
   useNavigate
 } from "react-router-dom";
-import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, setDoc, query, where } from "firebase/firestore";
+import { doc, getDocs, collection, updateDoc, setDoc, query, } from "firebase/firestore";
 import { db } from '../../firebase';
 import Badge from 'react-bootstrap/Badge'
 
@@ -31,6 +27,7 @@ const Game = (props) => {
   const [requests, setRequests] = useState([])
   const [userAccepted, setUserAccepted] = useState(false)
   const [displayName, setDisplayName] = useState('')
+  const [refresh, setRefresh] = useState(false)
 
   let navigate = useNavigate();
 
@@ -38,31 +35,33 @@ const Game = (props) => {
     navigate(`/viewgame/${id}`)
   }
 
-  const getRequests = async (i, u) => {
-    const docRef = doc(db, "games", i, "requested", u);
-    const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const req = docSnap.data().requested
-        // console.log("req", req);
-        if (req == true ) {
-          setRequested(true)
-        }
-      }
-  }
+  // const getRequests = async (i, u) => {
+  //   const docRef = doc(db, "games", i, "requested", u);
+  //   const docSnap = await getDoc(docRef);
+  //     if (docSnap.exists()) {
+  //       const req = docSnap.data().requested
+  //       // console.log("req", req);
+  //       if (req == true ) {
+  //         setRequested(true)
+  //       }
+  //     }
+  // }
 
   const getAccepted = async (i) => {
     const q = query(collection(db, "games", i, "requested"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      setRequests(requests => [ ... requests, {
+      console.log("req", doc.data());
+      setRequests(requests => [ ...requests, {
         Name: doc.data().name,
         id: doc.id,
         accepted: doc.data().accepted,
         assigned: doc.data().assigned,
         requested: doc.data().requested,
       }])
-      if (doc.data().assigned == true) {
-        setAccepted(accepted => [ ... accepted, {
+      if (doc.data().assigned === true) {
+        console.log("reqtrue", doc.data());
+        setAccepted(accepted => [ ...accepted, {
           Name: doc.data().name,
           id: doc.id,
           accepted: doc.data().accepted,
@@ -70,13 +69,14 @@ const Game = (props) => {
           requested: doc.data().requested,
         }])
       }
-      if (doc.id == props.user && doc.data().requested == true) {
+      if (doc.id === props.user && doc.data().requested === true) {
         setRequested(true)
       }
-      if (doc.id == props.user && doc.data().accepted == true) {
+      if (doc.id === props.user && doc.data().accepted === true) {
         setUserAccepted(true)
       }
     });
+    setRefresh(true)
   }
 
 
@@ -91,10 +91,8 @@ const Game = (props) => {
 
     // console.log("game user Id", props.user);
     let thisDate = new Date(props.info.data.dateTime.seconds * 1000)
-
     let localDate = thisDate.toLocaleString()
     setDate(localDate)
-    console.log("data", props.info.data);
   }, []);
 
 
@@ -128,24 +126,11 @@ const Game = (props) => {
   }
   }
 
-  const setPill = () => {
-    console.log("tttt", requests);
-    if (requests[0] && requests[0].accepted == true) {
-      console.log("green");
-    } else if (requests[0] && requests[0].assigned == true) {
-      console.log("yellow");
-    } else {
-      console.log("nothing");
-    }
-  }
-
 
 
 
 
     return (
-
-
 
           <tr className="gameDiv">
 
@@ -154,18 +139,18 @@ const Game = (props) => {
 
             <td>{props.info.data.grade}</td>
 
-            {(requests[0] && requests[0].assigned == true ? <td className="acceptedTD">
+            {(requests[0] && requests[0].assigned === true ? <td className="acceptedTD">
               <Badge pill bg={(requests[0].accepted ? "success" : "secondary")}>
                 {requests[0].Name}
               </Badge>
             </td> : <td></td>)}
 
-            {(requests[1] && requests[1].assigned == true ? <td className="acceptedTD">
+            {(requests[1] && requests[1].assigned === true ? <td className="acceptedTD">
               <Badge pill bg={(requests[1].accepted ? "success" : "secondary")}>
                 {requests[1].Name}
               </Badge>
             </td> : <td></td>)}
-            {(requests[2] && requests[2].assigned == true ? <td className="acceptedTD">
+            {(requests[2] && requests[2].assigned === true ? <td className="acceptedTD">
               <Badge pill bg={(requests[2].accepted ? "success" : "secondary")}>
                 {requests[2].Name}
               </Badge>

@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useContext, } from 'react';
-import Stack from 'react-bootstrap/Stack'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
 import Game from './Game.js'
-import Col from 'react-bootstrap/Col'
 import './Schedule.css';
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
-import { db, auth, } from '../../firebase';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { db, } from '../../firebase';
 import Table from 'react-bootstrap/Table'
 import { AuthContext } from "../../auth";
 
@@ -19,8 +14,9 @@ import { AuthContext } from "../../auth";
 const Schedule = () => {
   const [games, setGames] = useState([])
   const [id, setId] = useState(1)
-  const { currentUser, loading } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const [displayName, setDisplayName] = useState('')
+  const uid = currentUser.uid
 
 
   const getGames = async () => {
@@ -30,7 +26,7 @@ const Schedule = () => {
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       // console.log("game", doc.data());
-      setGames(games => [ ... games, {
+      setGames(games => [...games, {
         data: doc.data(),
         id: doc.id,
       }])
@@ -42,7 +38,6 @@ const Schedule = () => {
     const userRef = doc(db, "users", uid)
     const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       setDisplayName(docSnap.data().displayName)
 
     } else {
@@ -53,8 +48,8 @@ const Schedule = () => {
 
 
   useEffect(() => {
-    setId(currentUser.uid)
-    getUserInfo(currentUser.uid)
+    setId(uid)
+    getUserInfo(uid)
     getGames()
   }, []);
 

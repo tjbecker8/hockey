@@ -32,8 +32,10 @@ const NewGame = () => {
 
 
   const dateChange = (e) => {
+    const dtte = new Date(e.target.value)
+    console.log("nnn", dtte);
     e.preventDefault();
-    setDate(e.target.valueAsDate)
+    setDate(dtte)
   }
 
   const gradeChange = (e) => {

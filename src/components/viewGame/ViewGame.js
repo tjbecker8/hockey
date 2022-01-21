@@ -101,11 +101,19 @@ const ViewGame = (props) => {
                 : "No Ref assigned")
             }</div>
           <div className="bg-light border">{
-              (refline != null ? refline : "No Ref/Line assigned" )
+            (refs[1] && refs[1].assigned == true ?
+              <Badge pill bg={(refs[1].accepted ? "success" : "secondary")}>
+                {refs[1].Name}
+              </Badge>
+              : "No Ref/line assigned")
             }
           </div>
           <div className="bg-light border">{
-              (line != null ? line : "No line assigned")
+            (refs[2] && refs[2].assigned == true ?
+              <Badge pill bg={(refs[2].accepted ? "success" : "secondary")}>
+                {refs[2].Name}
+              </Badge>
+              : "No Line assigned")
             }
           </div>
           <div className="bg-light border">{notes}</div>

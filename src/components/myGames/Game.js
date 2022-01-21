@@ -2,6 +2,7 @@ import React, { useState, useEffect, } from 'react'
 import Button from 'react-bootstrap/Button'
 import { doc, updateDoc, getDocs, collection, where } from "firebase/firestore";
 import { db } from '../../firebase';
+import Badge from 'react-bootstrap/Badge'
 
 
 
@@ -12,6 +13,7 @@ const [date, setDate] = useState('')
 const [confirmed, setConfirmed] = useState(false)
 const [uid, setUid] = useState('')
 const [refs, setRefs] = useState([])
+const [fresh, setFresh] =useState(false)
 
 const getRefs = async (gameId) => {
   const gamesSnapshot = await getDocs(collection(db, "games", gameId, "requested"), where("assigned", "==", true));
@@ -54,6 +56,15 @@ const getRefs = async (gameId) => {
     await updateDoc(refGameRef, {
       accepted: true
     });
+    for (const obj of refs) {
+      if (obj.id === uid) {
+    obj.data.accepted = true;
+    setFresh(true)
+    break;
+  }
+}
+console.log("updated accepted", refs);
+
     //need function to set the ref, ref/line, or line slot
   }
 
@@ -63,9 +74,15 @@ const getRefs = async (gameId) => {
       <tr>
         <td>{date}</td>
         <td>Grade</td>
-        {(refs[0] ? <td>{refs[0].data.name}</td> : <td>no ref</td>)}
-        {(refs[1] ? <td>{refs[1].data.name}</td> : <td>no ref</td>)}
-        {(refs[2] ? <td>{refs[2].data.name}</td> : <td>no ref</td>)}
+        {(refs[0] ? <td>{
+          (refs[0].data.accepted ? <Badge bg="success">{refs[0].data.name}</Badge> : <Badge bg="secondary">{refs[0].data.name}</Badge>)
+        }</td> : <td>no ref</td>)}
+        {(refs[1] ? <td>{
+          (refs[1].data.accepted ? <Badge bg="success">{refs[1].data.name}</Badge> : <Badge bg="secondary">{refs[1].data.name}</Badge>)
+        }</td> : <td>no ref</td>)}
+        {(refs[2] ? <td>{
+          (refs[2].data.accepted ? <Badge bg="success">{refs[2].data.name}</Badge> : <Badge bg="secondary">{refs[2].data.name}</Badge>)
+        }</td> : <td>no ref</td>)}
 
 
         <td>{(!confirmed ? <Button variant="warning" onClick={() => {AcceptGame()}}>Accept Game</Button> : <Button variant="success" onClick={() => {AcceptGame()}}>Game Accepted</Button>)}</td>

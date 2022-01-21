@@ -42,7 +42,6 @@ const TopBar = () => {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                 <Nav.Link href="/schedule">Schedule</Nav.Link>
-                <Nav.Link href="/viewgame">Link</Nav.Link>
                 {(!user ? <Nav.Link href="/login">Login/SignUp</Nav.Link>
                   :
               <NavDropdown title="User" id="basic-nav-dropdown">

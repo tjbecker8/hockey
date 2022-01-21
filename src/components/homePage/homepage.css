@@ -1,3 +1,11 @@
 .home {
   padding-top: 100px;
 }
+.containerHome {
+  padding: 25px;
+}
+
+.colHome:hover {
+  cursor: pointer;
+  color: blue;
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, } from 'react';
 import Stack from 'react-bootstrap/Stack'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -9,6 +9,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db, auth, } from '../../firebase';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Table from 'react-bootstrap/Table'
+import { AuthContext } from "../../auth";
 
 
 
@@ -18,6 +19,7 @@ import Table from 'react-bootstrap/Table'
 const Schedule = () => {
   const [games, setGames] = useState([])
   const [id, setId] = useState(1)
+  const { currentUser, loading } = useContext(AuthContext);
 
   const getGames = async () => {
     const today = new Date()
@@ -33,21 +35,22 @@ const Schedule = () => {
         });
           }
 
-  const getUser = async () => {
-  await onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-      // console.log("user", uid);
-      setId(uid)
-      getGames()
-    } else {
-    console.log("no user");
-    }
-  });
-  }
+  // const getUser = async () => {
+  // await onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     const uid = user.uid;
+  //     // console.log("user", uid);
+  //     setId(uid)
+  //     getGames()
+  //   } else {
+  //   console.log("no user");
+  //   }
+  // });
+  // }
 
   useEffect(() => {
-    getUser()
+    setId(currentUser.uid)
+    getGames()
   }, []);
 
 

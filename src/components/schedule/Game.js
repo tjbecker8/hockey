@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, setDoc, query, where } from "firebase/firestore";
 import { db } from '../../firebase';
+import Badge from 'react-bootstrap/Badge'
 
 
 
@@ -27,6 +28,8 @@ const Game = (props) => {
   const [requested, setRequested] = useState(false)
   const [userId, setUserId] = useState(null)
   const [accepted, setAccepted] =useState([])
+  const [requests, setRequests] = useState([])
+  const [userAccepted, setUserAccepted] = useState(false)
 
   let navigate = useNavigate();
 
@@ -47,16 +50,32 @@ const Game = (props) => {
   }
 
   const getAccepted = async (i) => {
-    const q = query(collection(db, "games", i, "requested"), where("accepted", "==", true));
+    const q = query(collection(db, "games", i, "requested"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data().name);
-      setAccepted(accepted => [ ... accepted, {
+      setRequests(requests => [ ... requests, {
         Name: doc.data().name,
         id: doc.id,
+        accepted: doc.data().accepted,
+        assigned: doc.data().assigned,
+        requested: doc.data().requested,
       }])
+      if (doc.data().assigned == true) {
+        setAccepted(accepted => [ ... accepted, {
+          Name: doc.data().name,
+          id: doc.id,
+          accepted: doc.data().accepted,
+          assigned: doc.data().assigned,
+          requested: doc.data().requested,
+        }])
+      }
+      if (doc.id == props.user && doc.data().requested == true) {
+        setRequested(true)
+      }
+      if (doc.id == props.user && doc.data().accepted == true) {
+        setUserAccepted(true)
+      }
     });
-
   }
 
 
@@ -64,7 +83,7 @@ const Game = (props) => {
   useEffect(() => {
 
     setId(props.info.id)
-    getRequests(props.info.id, props.user)
+    // getRequests(props.info.id, props.user)
     setUserId(props.user)
     getAccepted(props.info.id)
     // console.log("game user Id", props.user);
@@ -76,10 +95,11 @@ const Game = (props) => {
   }, []);
 
 
-//need to add update to individual user profile to find games faster
+
   const clickRequest = () => {
     console.log("request clicked");
     const gameRef = doc(db, "games", id, "requested", userId)
+    if (!userAccepted) {
     if (!requested) {
     setRequested(!requested)
       setDoc(gameRef, {
@@ -92,6 +112,20 @@ const Game = (props) => {
         requested: false
       })
       setRequested(!requested)
+    }
+  } else {
+    alert("Game has already been acepted, you are responsible for finding cover if you can no longer do it.")
+  }
+  }
+
+  const setPill = () => {
+    console.log("tttt", requests);
+    if (requests[0] && requests[0].accepted == true) {
+      console.log("green");
+    } else if (requests[0] && requests[0].assigned == true) {
+      console.log("yellow");
+    } else {
+      console.log("nothing");
     }
   }
 
@@ -109,9 +143,23 @@ const Game = (props) => {
             <td>{date}</td>
 
             <td>{props.info.data.grade}</td>
-            <td>{props.info.data.ref}</td>
-            <td>{props.info.data.refline}</td>
-            <td>{props.info.data.line}</td>
+
+            {(requests[0] && requests[0].assigned == true ? <td className="acceptedTD">
+              <Badge pill bg={(requests[0].accepted ? "success" : "secondary")}>
+                {requests[0].Name}
+              </Badge>
+            </td> : <td></td>)}
+
+            {(requests[1] && requests[1].assigned == true ? <td className="acceptedTD">
+              <Badge pill bg={(requests[1].accepted ? "success" : "secondary")}>
+                {requests[1].Name}
+              </Badge>
+            </td> : <td></td>)}
+            {(requests[2] && requests[2].assigned == true ? <td className="acceptedTD">
+              <Badge pill bg={(requests[2].accepted ? "success" : "secondary")}>
+                {requests[2].Name}
+              </Badge>
+            </td> : <td></td>)}
             <td>
               <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{props.info.data.notes}</Tooltip>}>
                 <span className="d-inline-block">

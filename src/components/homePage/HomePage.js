@@ -1,7 +1,7 @@
 import React from 'react'
 import './homepage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarAlt, faAddressCard, faHockeyPuck, faBlind } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faAddressCard, faHockeyPuck, faBlind, faDumpsterFire } from '@fortawesome/free-solid-svg-icons'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -43,6 +43,12 @@ const HomePage = () => {
                 <div onClick={() => {click("assigngames")}}>
                   <FontAwesomeIcon icon={faBlind} size="6x" />
                   <h4>Assign Games</h4>
+                </div>
+              </Col>
+              <Col className="colHome">
+                <div onClick={() => {click("newgame")}}>
+                  <FontAwesomeIcon icon={faDumpsterFire} size="6x" />
+                  <h4>New Game</h4>
                 </div>
               </Col>
             </Row>

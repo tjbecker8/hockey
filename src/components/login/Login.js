@@ -56,7 +56,7 @@ const Login = () => {
   }
 
   const goToSignUp = () => {
-    navigate('/signup')
+    navigate('/newuser')
   }
 
 

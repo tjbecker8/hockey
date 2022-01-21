@@ -9,3 +9,8 @@
   color: blue;
   cursor: pointer;
 }
+
+.passText {
+  color: red;
+  font-weight: bold;
+}

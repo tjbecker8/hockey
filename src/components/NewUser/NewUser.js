@@ -5,6 +5,9 @@ import './newUser.css'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc, setDoc, doc, } from "firebase/firestore";
 import { db } from '../../firebase';
+import {
+  useNavigate
+} from "react-router-dom";
 
 
 const NewUser = () => {
@@ -14,6 +17,9 @@ const NewUser = () => {
   const [userId, setUserId] = useState("")
   const [displayName, setDisplayName] = useState('')
   const [isRef, setIsRef] = useState(false)
+  const [rePassword, setRePassword] = useState("")
+  const [match, setMatch] = useState(true)
+  const navigate = useNavigate();
 
   const addUserDb = async (id) => {
     await setDoc(doc(db, "users", id), {
@@ -29,6 +35,9 @@ const NewUser = () => {
   }
 
 const signUp = () => {
+  if (password === rePassword) {
+
+
   const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
@@ -41,6 +50,7 @@ const signUp = () => {
     // ...
     console.log("user", user);
     console.log("uid", uid);
+    navigate('/schedule')
     })
     .catch((error) => {
     const errorCode = error.code;
@@ -50,6 +60,9 @@ const signUp = () => {
     // ..
   });
 
+} else {
+  setMatch(false)
+}
 }
 
 
@@ -63,6 +76,12 @@ const signUp = () => {
   const passwordChange = (e) => {
     e.preventDefault()
     setPassword(e.target.value)
+    console.log(e.target.value);
+  }
+
+  const rePasswordChange = (e) => {
+    e.preventDefault()
+    setRePassword(e.target.value)
     console.log(e.target.value);
   }
 
@@ -86,7 +105,7 @@ const signUp = () => {
         <h3>Sign up for a new account</h3>
         <h5>If you already have an account. Sign in <a id="here">here</a></h5>
         <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3" controlId="formBasicName">
             <Form.Label>Display Name</Form.Label>
             <Form.Control type="text" placeholder="Display Name" onChange={nameChange} />
               <Form.Text className="text-muted">
@@ -109,8 +128,13 @@ const signUp = () => {
             must not contain spaces, special characters, or emoji. *need to do test for this, aand add alert
             </Form.Text>
           </Form.Group>
-          <input type="checkbox" value="Ref" name="Referee" checked={isRef} onChange={refChange} /> Referee?
-            <br></br>
+          <Form.Group className="mb-3" controlId="formBasicRePassword">
+            <Form.Label>Re-enter Password</Form.Label>
+            <Form.Control type="password" placeholder="Re-enter Password" onChange={rePasswordChange} />
+            <Form.Text id="rePasswordHelpBlock" className="passText">
+            {(match ? "" : "Passwords Do Not Match")}
+            </Form.Text>
+          </Form.Group>
             <br></br>
           <Button variant="primary" type="submit">
             Submit

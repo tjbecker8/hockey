@@ -128,7 +128,7 @@ const ViewGame = (props) => {
           <Collapse in={open} onExited={exited}>
             <div>
               <Form.Control as="textarea" rows={4} defaultValue={notes} onChange={addNotes} />
-
+              <br></br>
               <Button onClick={() =>
                   setOpen(!open)
                 } >Done</Button>

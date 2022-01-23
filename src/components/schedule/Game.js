@@ -9,6 +9,9 @@ import {
 import { doc, getDocs, collection, updateDoc, setDoc, query, } from "firebase/firestore";
 import { db } from '../../firebase';
 import Badge from 'react-bootstrap/Badge'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEraser } from '@fortawesome/free-solid-svg-icons'
+
 
 
 
@@ -51,7 +54,7 @@ const Game = (props) => {
     const q = query(collection(db, "games", i, "requested"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log("req", doc.data());
+
       setRequests(requests => [ ...requests, {
         Name: doc.data().name,
         id: doc.id,
@@ -60,7 +63,7 @@ const Game = (props) => {
         requested: doc.data().requested,
       }])
       if (doc.data().assigned === true) {
-        console.log("reqtrue", doc.data());
+
         /// assigned and accepted are two different things
         setAccepted(accepted => [ ...accepted, {
           Name: doc.data().name,
@@ -78,8 +81,7 @@ const Game = (props) => {
       }
     });
     setRefresh(true)
-    console.log(requests);
-    console.log("meo", accepted);
+
   }
 
 
@@ -125,10 +127,13 @@ const Game = (props) => {
       setRequested(!requested)
     }
   } else {
-    alert("Game has already been acepted, you are responsible for finding cover if you can no longer do it.")
+    alert("Game has already been accepted, you are responsible for finding cover if you can no longer do it.")
   }
   }
 
+  const clickEdit = () => {
+    navigate(`/editgame/${id}`)
+  }
 
 
 
@@ -173,6 +178,7 @@ const Game = (props) => {
                 (requested != true ? <Button variant="primary" onClick={ () => {clickRequest()} } >Request</Button> :
                 <Button variant="success" onClick={ () => {clickRequest()} } >Requested</Button>)
             }</td>
+          <td><Button variant="warning" onClick={ () => {clickEdit()} }><FontAwesomeIcon icon={faEraser} size="1x" /></Button></td>
         </tr>
 
 

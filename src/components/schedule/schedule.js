@@ -69,6 +69,7 @@ const Schedule = () => {
                 <th>Line</th>
                 <th>notes</th>
                 <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

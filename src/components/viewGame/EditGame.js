@@ -25,6 +25,7 @@ const EditGame = () => {
     const [line, setLine] = useState(null)
     const [notes, setNotes] = useState('')
 
+
     const getRefs = async () => {
       const querySnapshot = await getDocs(collection(db, "refs"));
       querySnapshot.forEach((doc) => {

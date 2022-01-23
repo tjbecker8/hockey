@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button'
 import { collection, query, where, getDocs, doc, updateDoc, setDoc } from "firebase/firestore";
-import { db, auth, } from '../../firebase';
+import { db, } from '../../firebase';
 import GameAssignVerify from './GameAssignVerify'
 import DropdownButton from 'react-bootstrap/DropdownButton'
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -22,7 +22,7 @@ const GameAssign = (props) => {
 
   const Assign = async () => {
     if (!assigned) {
-    setAssigned(!assigned)
+    setAssigned(true)
     const gameRef = doc(db, "games", id)
       updateDoc(gameRef, {
         assigned: true,
@@ -33,7 +33,7 @@ const GameAssign = (props) => {
 
           const gameOfficialsRef = doc(db, "games", id, "requested", ref.id)
           updateDoc(gameOfficialsRef, {
-            assigned: assigned,
+            assigned: true,
           })
           const officialsGamesRef = doc(db, "users", ref.id, "games", id)
           setDoc(officialsGamesRef, {

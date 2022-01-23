@@ -27,16 +27,32 @@ const EditGame = () => {
     const [refline, setRefline] = useState(null)
     const [line, setLine] = useState(null)
     const [notes, setNotes] = useState('')
+    const [accepted, setRequested] = useState([])
 
 
     const getRefs = async () => {
-      const querySnapshot = await getDocs(collection(db, "refs"));
+      const querySnapshot = await getDocs(collection(db, "games", id, "requested"));
       querySnapshot.forEach((doc) => {
         console.log(doc.id, " => ", doc.data().name);
         setRefs(refs => [ ... refs, {
           id: doc.id,
           name: doc.data().name,
+          accepted: doc.data().accepted,
+          assigned: doc.data().assigned,
+          requested: doc.data().requested,
+          user: doc.data().user,
         }])
+        if (doc.data().requested === true) {
+          setRequested(requested => [...requested, {
+            id: doc.id,
+            name: doc.data().name,
+            accepted: doc.data().accepted,
+            assigned: doc.data().assigned,
+            requested: doc.data().requested,
+            user: doc.data().user,
+          }])
+        }
+
       });
     }
 
@@ -47,7 +63,6 @@ const EditGame = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-
         // console.log("Document data:", docSnap.data().grade);
         setGrade(docSnap.data().grade)
         setNotes(docSnap.data().notes)
@@ -55,7 +70,6 @@ const EditGame = () => {
         let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
         setDate(thisDate)
         setDatedisplay(thisDate.toISOString().split(':', 2).join(":"))
-
       } else {
         console.log("No such document!");
       }
@@ -65,7 +79,6 @@ const EditGame = () => {
 
     useEffect(() => {
       getGame()
-      console.log("gameid", id);
     }, [id]);
 
     const dateChange = (e) => {
@@ -106,9 +119,6 @@ const EditGame = () => {
       updateDoc(gameRef, {
         dateTime: date,
         grade: grade,
-        ref: ref,
-        refLine: refline,
-        line: line,
         notes: notes,
       })
       console.log("Document updated with ID: ", gameRef.id);

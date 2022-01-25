@@ -1,6 +1,6 @@
 import React, { useState, useEffect, } from 'react'
 import Button from 'react-bootstrap/Button'
-import { doc, updateDoc, getDocs, collection, where } from "firebase/firestore";
+import { doc, updateDoc, getDocs, collection, where, getDoc } from "firebase/firestore";
 import { db } from '../../firebase';
 import Badge from 'react-bootstrap/Badge'
 
@@ -12,30 +12,40 @@ const [id, setId] = useState('')
 const [date, setDate] = useState('')
 const [confirmed, setConfirmed] = useState(false)
 const [uid, setUid] = useState('')
-const [refs, setRefs] = useState([])
+// const [refs, setRefs] = useState([])
 const [fresh, setFresh] =useState(false)
+const [ref1, setRef1] = useState(null)
+const [ref2, setRef2] = useState(null)
+const [ref3, setRef3] = useState(null)
 
-const getRefs = async (gameId) => {
-  const gamesSnapshot = await getDocs(collection(db, "games", gameId, "requested"), where("assigned", "==", true));
-  gamesSnapshot.forEach((doc) => {
-    console.log("other refs", doc.data(), doc.id);
-    setRefs(refs => [ ... refs, {
-      data: doc.data(),
-      id: doc.id
-    }])
-  })
+
+
+const getGame = async (g) => {
+  const docRef = doc(db, "games", g);
+const docSnap = await getDoc(docRef);
+
+if (docSnap.exists()) {
+  console.log("Document data:", docSnap.data());
+  const data = docSnap.data()
+  setRef1(data.ref1)
+  setRef2(data.ref2)
+  setRef3(data.ref3)
+} else {
+  console.log("No such document!");
+}
 }
 
 
   useEffect(() => {
     setId(props.info.data.game)
-
+    console.log(props.info.data.game);
     setConfirmed(props.info.data.accepted)
     let thisDate = new Date(props.info.data.date.seconds * 1000)
     let localDate = thisDate.toLocaleString()
     setDate(localDate)
     setUid(props.uid)
-    getRefs(props.info.data.game)
+    // getRefs(props.info.data.game)
+    getGame(props.info.data.game)
   }, [])
 
   const AcceptGame = () => {
@@ -47,6 +57,8 @@ const getRefs = async (gameId) => {
     }
   }
 
+
+//need to setup so state adjusts to accepted to for the ref
   const confirmGame = async () => {
     const gameRef = doc(db, "games", id, "requested", uid);
     await updateDoc(gameRef, {
@@ -56,16 +68,37 @@ const getRefs = async (gameId) => {
     await updateDoc(refGameRef, {
       accepted: true
     });
-    for (const obj of refs) {
-      if (obj.id === uid) {
-    obj.data.accepted = true;
-    setFresh(true)
-    break;
-  }
-}
-console.log("updated accepted", refs);
+    const gRef = doc(db, "games", id)
+    if (ref1.id === uid) {
+    await updateDoc(gRef, {
+      ref1: {
+        name: ref1.name,
+        id: ref1.id,
+        assigned: ref1.assigned,
+        accepted: true,
+      }
+    });
 
-    //need function to set the ref, ref/line, or line slot
+  } else if (ref2.id === uid) {
+    await updateDoc(gRef, {
+      ref2: {
+        name: ref2.name,
+        id: ref2.id,
+        assigned: ref2.assigned,
+        accepted: true,
+      }
+    });
+  } else if (ref2.id === uid) {
+    await updateDoc(gRef, {
+      ref3: {
+        name: ref3.name,
+        id: ref3.id,
+        assigned: ref3.assigned,
+        accepted: true,
+      }
+    });
+  }
+console.log("updated accepted");
   }
 
 
@@ -74,14 +107,14 @@ console.log("updated accepted", refs);
       <tr>
         <td>{date}</td>
         <td>Grade</td>
-        {(refs[0] ? <td>{
-          (refs[0].data.accepted ? <Badge bg="success">{refs[0].data.name}</Badge> : <Badge bg="secondary">{refs[0].data.name}</Badge>)
+        {(ref1 ? <td>{
+          (ref1.accepted ? <Badge bg="success">{ref1.name}</Badge> : <Badge bg="secondary">{ref1.name}</Badge>)
         }</td> : <td>no ref</td>)}
-        {(refs[1] ? <td>{
-          (refs[1].data.accepted ? <Badge bg="success">{refs[1].data.name}</Badge> : <Badge bg="secondary">{refs[1].data.name}</Badge>)
+        {(ref2 ? <td>{
+          (ref2.accepted ? <Badge bg="success">{ref2.name}</Badge> : <Badge bg="secondary">{ref2.name}</Badge>)
         }</td> : <td>no ref</td>)}
-        {(refs[2] ? <td>{
-          (refs[2].data.accepted ? <Badge bg="success">{refs[2].data.name}</Badge> : <Badge bg="secondary">{refs[2].data.name}</Badge>)
+        {(ref3 ? <td>{
+          (ref3.accepted ? <Badge bg="success">{ref3.name}</Badge> : <Badge bg="secondary">{ref3.name}</Badge>)
         }</td> : <td>no ref</td>)}
 
 

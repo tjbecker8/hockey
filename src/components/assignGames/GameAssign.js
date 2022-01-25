@@ -124,18 +124,21 @@ const GameAssign = (props) => {
         setRef1({
           id: id,
           name: name,
+          assigned: true,
         })
       }
       else if (ref === 2) {
         setRef2({
           id: id,
           name: name,
+          assigned: true,
         })
       }
       else if (ref === 3) {
         setRef3({
           id: id,
           name: name,
+          assigned: true,
         })
       }
     }

@@ -6,7 +6,7 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import {
   useNavigate
 } from "react-router-dom";
-import { doc, getDocs, collection, updateDoc, setDoc, query, } from "firebase/firestore";
+import { doc, getDocs, collection, updateDoc, setDoc, query, getDoc } from "firebase/firestore";
 import { db } from '../../firebase';
 import Badge from 'react-bootstrap/Badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -31,6 +31,10 @@ const Game = (props) => {
   const [userAccepted, setUserAccepted] = useState(false)
   const [displayName, setDisplayName] = useState('')
   const [refresh, setRefresh] = useState(false)
+  const [ref1, setRef1] = useState(null)
+  const [ref2, setRef2] = useState(null)
+  const [ref3, setRef3] = useState(null)
+
 
   let navigate = useNavigate();
 
@@ -38,60 +42,68 @@ const Game = (props) => {
     navigate(`/viewgame/${id}`)
   }
 
-  // const getRequests = async (i, u) => {
-  //   const docRef = doc(db, "games", i, "requested", u);
-  //   const docSnap = await getDoc(docRef);
-  //     if (docSnap.exists()) {
-  //       const req = docSnap.data().requested
-  //       // console.log("req", req);
-  //       if (req == true ) {
-  //         setRequested(true)
-  //       }
+
+  const getRequests = async (i, u) => {
+    const docRef = doc(db, "games", i, "requested", u);
+    const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const req = docSnap.data().requested
+        // console.log("req", req);
+        if (req == true ) {
+          setRequested(true)
+        }
+      }
+  }
+
+  // const getAccepted = async (i) => {
+  //   const q = query(collection(db, "games", i, "requested"));
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //
+  //     setRequests(requests => [ ...requests, {
+  //       Name: doc.data().name,
+  //       id: doc.id,
+  //       accepted: doc.data().accepted,
+  //       assigned: doc.data().assigned,
+  //       requested: doc.data().requested,
+  //     }])
+  //     if (doc.data().assigned === true) {
+  //
+  //       /// assigned and accepted are two different things
+  //       setAccepted(accepted => [ ...accepted, {
+  //         Name: doc.data().name,
+  //         id: doc.id,
+  //         accepted: doc.data().accepted,
+  //         assigned: doc.data().assigned,
+  //         requested: doc.data().requested,
+  //       }])
   //     }
+  //     if (doc.id === props.user && doc.data().requested === true) {
+  //       setRequested(true)
+  //     }
+  //     if (doc.id === props.user && doc.data().accepted === true) {
+  //       setUserAccepted(true)
+  //     }
+  //   });
+  //   setRefresh(true)
   // }
 
-  const getAccepted = async (i) => {
-    const q = query(collection(db, "games", i, "requested"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-
-      setRequests(requests => [ ...requests, {
-        Name: doc.data().name,
-        id: doc.id,
-        accepted: doc.data().accepted,
-        assigned: doc.data().assigned,
-        requested: doc.data().requested,
-      }])
-      if (doc.data().assigned === true) {
-
-        /// assigned and accepted are two different things
-        setAccepted(accepted => [ ...accepted, {
-          Name: doc.data().name,
-          id: doc.id,
-          accepted: doc.data().accepted,
-          assigned: doc.data().assigned,
-          requested: doc.data().requested,
-        }])
-      }
-      if (doc.id === props.user && doc.data().requested === true) {
-        setRequested(true)
-      }
-      if (doc.id === props.user && doc.data().accepted === true) {
-        setUserAccepted(true)
-      }
-    });
-    setRefresh(true)
-
+  const theRefs = () => {
+    const data = props.info.data
+    setRef1(data.ref1)
+    setRef2(data.ref2)
+    setRef3(data.ref3)
   }
 
 
 
   useEffect(() => {
-
+    console.log("props", props.info.data);
+    theRefs()
     setId(props.info.id)
-    // getRequests(props.info.id, props.user)
+    getRequests(props.info.id, props.user)
     setUserId(props.user)
-    getAccepted(props.info.id)
+    // getAccepted(props.info.id)
     setDisplayName(props.displayName)
 
     // console.log("game user Id", props.user);
@@ -147,22 +159,30 @@ const Game = (props) => {
 
             <td>{props.info.data.grade}</td>
 
-            {(requests[0] && requests[0].assigned === true ? <td className="acceptedTD">
-              <Badge pill bg={(requests[0].accepted ? "success" : "secondary")}>
-                {requests[0].Name}
+            {(ref1 ? <td className="acceptedTD">
+              <Badge pill bg={(ref1.accepted ? "success" : "secondary")}>
+                {ref1.name}
               </Badge>
-            </td> : <td></td>)}
+            </td> : <td></td>
+            )}
 
-            {(requests[1] && requests[1].assigned === true ? <td className="acceptedTD">
-              <Badge pill bg={(requests[1].accepted ? "success" : "secondary")}>
-                {requests[1].Name}
+            {(ref2 ? <td className="acceptedTD">
+              <Badge pill bg={(ref2.accepted ? "success" : "secondary")}>
+                {ref2.name}
               </Badge>
-            </td> : <td></td>)}
-            {(requests[2] && requests[2].assigned === true ? <td className="acceptedTD">
-              <Badge pill bg={(requests[2].accepted ? "success" : "secondary")}>
-                {requests[2].Name}
+            </td> : <td></td>
+            )}
+
+            {(ref3 ? <td className="acceptedTD">
+              <Badge pill bg={(ref3.accepted ? "success" : "secondary")}>
+                {ref3.name}
               </Badge>
-            </td> : <td></td>)}
+            </td> : <td></td>
+            )}
+
+
+
+
             <td>
               <OverlayTrigger overlay={<Tooltip id="tooltip-disabled">{props.info.data.notes}</Tooltip>}>
                 <span className="d-inline-block">

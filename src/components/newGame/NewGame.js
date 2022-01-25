@@ -20,9 +20,9 @@ const NewGame = () => {
     const docRef =  await addDoc(collection(db, "games"), {
       dateTime: date,
       grade: grade,
-      line: null,
-      ref: null,
-      refLine: null,
+      ref3: null,
+      ref1: null,
+      ref2: null,
       notes: '',
     });
     console.log("Document written with ID: ", docRef.id);

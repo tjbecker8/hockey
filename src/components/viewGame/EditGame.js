@@ -107,30 +107,50 @@ const EditGame = () => {
 
     const changeRef1 = (e) => {
       e.preventDefault()
+      console.log(e.target.value);
       const uid = e.target.value
-      const ref = refs.find(x=> x.id === uid)
-      console.log("find", ref);
       console.log("uid", uid);
+      if (uid !== "1") {
+        const ref = refs.find(x=> x.id === uid)
+        console.log("find", ref);
         setChanged1(ref)
+      } else if (uid === "1") {
+        console.log("bitches");
+        setChanged1(null)
+        setRef1(null)
+      }
     }
 
     const changeRef2 = (e) => {
       e.preventDefault()
+      console.log(e.target.value);
       const uid = e.target.value
-      const ref = refs.find(x=> x.id === uid)
-      console.log("find", ref);
       console.log("uid", uid);
+      if (uid !== "1") {
+        const ref = refs.find(x=> x.id === uid)
+        console.log("find", ref);
         setChanged2(ref)
+      } else if (uid === "1") {
+        console.log("bitches");
+        setChanged2(null)
+        setRef2(null)
+      }
     }
 
     const changeRef3 = (e) => {
       e.preventDefault()
+      console.log(e.target.value);
       const uid = e.target.value
-      const ref = refs.find(x=> x.id === uid)
-      console.log("find", ref);
       console.log("uid", uid);
+      if (uid !== "1") {
+        const ref = refs.find(x=> x.id === uid)
+        console.log("find", ref);
         setChanged3(ref)
-
+      } else if (uid === "1") {
+        console.log("bitches");
+        setChanged3(null)
+        setRef3(null)
+      }
     }
 
 
@@ -264,12 +284,14 @@ const EditGame = () => {
           <Form.Group className="mb-3">
             <Form.Label>Ref1</Form.Label>
             <Form.Select aria-label="Default select example" onChange={changeRef1}>
-              <option>{(ref1 ? ref1.name : "ref1")}</option> //need to change so default ref shows up from game
+              <option value={(ref1 ? ref1.id : 1)}>{(ref1 ? ref1.name : "ref1")}</option>
                 {
                   refs.map(ref => (
                     <option key={ref.id} value={ref.id}>{ref.name}</option>
                   ))
                 }
+                <option key={1} value={1}>Null</option>
+
 
             </Form.Select>
           </Form.Group>
@@ -277,7 +299,7 @@ const EditGame = () => {
           <Form.Group className="mb-3">
             <Form.Label>Ref2</Form.Label>
             <Form.Select aria-label="Default select example" onChange={changeRef2}>
-              <option>{(ref2 ? ref2.name : "ref2")}</option> //need to change so default ref shows up from game
+              <option>{(ref2 ? ref2.name : "ref2")}</option>
                 {
                   refs.map(ref => (
                     <option key={ref.id} value={ref.id} data={2}>{ref.name}</option>
@@ -290,7 +312,7 @@ const EditGame = () => {
           <Form.Group className="mb-3">
             <Form.Label>Ref3</Form.Label>
             <Form.Select aria-label="Default select example" onChange={changeRef3}>
-              <option>{(ref3 ? ref3.name : "ref3")}</option> //need to change so default ref shows up from game
+              <option>{(ref3 ? ref3.name : "ref3")}</option>
                 {
                   refs.map(ref => (
                     <option key={ref.id} value={ref.id} data={3}>{ref.name}</option>

@@ -47,46 +47,18 @@ const Game = (props) => {
     const docRef = doc(db, "games", i, "requested", u);
     const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
+
         const req = docSnap.data().requested
         // console.log("req", req);
         if (req == true ) {
           setRequested(true)
         }
+      } else{
+        console.log("no doc");
       }
   }
 
-  // const getAccepted = async (i) => {
-  //   const q = query(collection(db, "games", i, "requested"));
-  //   const querySnapshot = await getDocs(q);
-  //   querySnapshot.forEach((doc) => {
-  //
-  //     setRequests(requests => [ ...requests, {
-  //       Name: doc.data().name,
-  //       id: doc.id,
-  //       accepted: doc.data().accepted,
-  //       assigned: doc.data().assigned,
-  //       requested: doc.data().requested,
-  //     }])
-  //     if (doc.data().assigned === true) {
-  //
-  //       /// assigned and accepted are two different things
-  //       setAccepted(accepted => [ ...accepted, {
-  //         Name: doc.data().name,
-  //         id: doc.id,
-  //         accepted: doc.data().accepted,
-  //         assigned: doc.data().assigned,
-  //         requested: doc.data().requested,
-  //       }])
-  //     }
-  //     if (doc.id === props.user && doc.data().requested === true) {
-  //       setRequested(true)
-  //     }
-  //     if (doc.id === props.user && doc.data().accepted === true) {
-  //       setUserAccepted(true)
-  //     }
-  //   });
-  //   setRefresh(true)
-  // }
+
 
   const theRefs = () => {
     const data = props.info.data

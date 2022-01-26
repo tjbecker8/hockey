@@ -57,12 +57,7 @@ const HomePage = () => {
                   <h4>Edit Games</h4>
                 </div>
               </Col>
-              <Col className="colHome">
-                <div onClick={() => {click("deletegame")}}>
-                  <FontAwesomeIcon icon={faTrashAlt} size="6x" />
-                  <h4>Delete Game</h4>
-                </div>
-              </Col>
+              
             </Row>
           </Container>
 

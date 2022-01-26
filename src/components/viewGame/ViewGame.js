@@ -10,6 +10,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 
 
@@ -19,12 +20,11 @@ const ViewGame = (props) => {
   const [game, setGame] = useState({dateTime: new Date(), grade:"1"});
   const [date, setDate] = useState('')
   const [grade, setGrade] =useState('')
-  const [ref, setRef] = useState(null)
-  const [refline, setRefline] = useState(null)
-  const [line, setLine] = useState(null)
   const [datedisplay, setDatedisplay] = useState('')
   const [refs, setRefs] = useState([])
-  // const [id, setId] = useState(1)
+  const [ref1, setRef1] = useState(null)
+  const [ref2, setRef2] = useState(null)
+  const [ref3, setRef3] = useState(null)
 
 
   const { id } = useParams();
@@ -47,14 +47,17 @@ const ViewGame = (props) => {
     const docRef = doc(db, "games", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      // console.log("Document data:", docSnap.data().grade);
-      setGrade(docSnap.data().grade)
-      if (docSnap.data().notes.length > 0) {
+      const data = docSnap.data()
+      setGrade(data.grade)
+      if (data.notes.length > 0) {
         setNotes(docSnap.data().notes)
       }
-      setGame(docSnap.data())
-      setRef(docSnap.data().ref)
-      setRefline(docSnap.data().refline)
+      setGame(data)
+      setRef1(data.ref1)
+      setRef2(data.ref2)
+      setRef3(data.ref3)
+
+
       let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
       setDate(thisDate)
       let localDate = thisDate.toLocaleString()
@@ -94,29 +97,36 @@ const ViewGame = (props) => {
             }
           </div>
           <div className="bg-light border">{
-              (refs[0] && refs[0].assigned == true ?
-                <Badge pill bg={(refs[0].accepted ? "success" : "secondary")}>
-                  {refs[0].Name}
-                </Badge>
-                : "No Ref assigned")
+              (ref1 ? <Badge pill bg={(ref1.accepted ? "success" : "secondary")}>{ref1.name}</Badge> : "N/A")
             }</div>
           <div className="bg-light border">{
-            (refs[1] && refs[1].assigned == true ?
-              <Badge pill bg={(refs[1].accepted ? "success" : "secondary")}>
-                {refs[1].Name}
-              </Badge>
-              : "No Ref/line assigned")
+            (ref2 ? <Badge pill bg={(ref2.accepted ? "success" : "secondary")}>{ref2.name}</Badge> : "N/A")
             }
           </div>
-          <div className="bg-light border">{
-            (refs[2] && refs[2].assigned == true ?
-              <Badge pill bg={(refs[2].accepted ? "success" : "secondary")}>
-                {refs[2].Name}
-              </Badge>
-              : "No Line assigned")
+          <div className="bg-light border">
+            {
+            (ref3 ? <Badge pill bg={(ref3.accepted ? "success" : "secondary")}>{ref3.name}</Badge> : "N/A")
             }
           </div>
-          <div className="bg-light border">{notes}</div>
+          <div>
+            <Dropdown>
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                Requested Game
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {
+                  refs.map((i, index)=> {
+                    console.log("hhh", i);
+                    return (
+                      <Dropdown.Item key={index} href="#/action-1">{i.Name}</Dropdown.Item>
+                  )})
+                }
+              </Dropdown.Menu>
+            </Dropdown>
+
+          </div>
+          <div className="bg-light border">{(notes ? notes : "No notes")}</div>
           <Button
             variant="secondary"
             onClick={() => setOpen(!open)}
@@ -134,6 +144,8 @@ const ViewGame = (props) => {
                 } >Done</Button>
             </div>
           </Collapse>
+
+
         </Stack>
 
         </div>

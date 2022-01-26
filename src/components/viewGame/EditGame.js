@@ -6,13 +6,10 @@ import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, deleteDoc, setD
 import { db } from '../../firebase';
 import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
-import { useParams, } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { confirm } from "react-confirm-box";
-import {
-  useNavigate
-} from "react-router-dom";
 
 
 

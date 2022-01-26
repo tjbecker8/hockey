@@ -7,14 +7,18 @@ import Form from 'react-bootstrap/Form'
 import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, query } from "firebase/firestore";
 import { db } from '../../firebase';
 import {
-  useParams,
+  useParams, useNavigate
 } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 
 
+
 const ViewGame = (props) => {
+
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState('')
   const [game, setGame] = useState({dateTime: new Date(), grade:"1"});
@@ -109,7 +113,7 @@ const ViewGame = (props) => {
             }
           </div>
           <div>
-            <Dropdown>
+            <Dropdown >
               <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                 Requested Game
               </Dropdown.Toggle>
@@ -144,10 +148,9 @@ const ViewGame = (props) => {
                 } >Done</Button>
             </div>
           </Collapse>
-
-
         </Stack>
 
+        
         </div>
     )
 }

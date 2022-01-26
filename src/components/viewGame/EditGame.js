@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './EditGame.css'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import { doc, getDoc, Timestamp, getDocs, collection, updateDoc } from "firebase/firestore";
+import { doc, getDoc, Timestamp, getDocs, collection, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { db } from '../../firebase';
 import moment from 'moment';
 import DateTimePicker from 'react-datetime-picker';
@@ -23,11 +23,14 @@ const EditGame = () => {
     const [datedisplay, setDatedisplay] = useState('')
     const [grade, setGrade] =useState('')
     const [refs, setRefs] = useState([])
-    const [ref, setRef] = useState(null)
-    const [refline, setRefline] = useState(null)
-    const [line, setLine] = useState(null)
     const [notes, setNotes] = useState('')
     const [accepted, setRequested] = useState([])
+    const [ref1, setRef1] = useState(null)
+    const [ref2, setRef2] = useState(null)
+    const [ref3, setRef3] = useState(null)
+    const [changed1, setChanged1] = useState(null)
+    const [changed2, setChanged2] = useState(null)
+    const [changed3, setChanged3] = useState(null)
 
 
     const getRefs = async () => {
@@ -67,6 +70,10 @@ const EditGame = () => {
         setGrade(docSnap.data().grade)
         setNotes(docSnap.data().notes)
         setGame(docSnap.data())
+        setRef1(docSnap.data().ref1)
+        setRef2(docSnap.data().ref2)
+        setRef3(docSnap.data().ref3)
+
         let thisDate = new Date(docSnap.data().dateTime.seconds * 1000)
         setDate(thisDate)
         setDatedisplay(thisDate.toISOString().split(':', 2).join(":"))
@@ -91,24 +98,37 @@ const EditGame = () => {
       setGrade(e.target.value)
     }
 
-    const refChange = (e) => {
-      e.preventDefault();
-      setRef(e.target.value)
-    }
-
-    const refLineChange = (e) => {
-      e.preventDefault();
-      setRefline(e.target.value)
-    }
-
-    const LineChange = (e) => {
-      e.preventDefault();
-      setLine(e.target.value)
-    }
-
     const addNotes = (e) => {
       e.preventDefault()
       setNotes(e.target.value)
+    }
+
+    const changeRef1 = (e) => {
+      e.preventDefault()
+      const uid = e.target.value
+      const ref = refs.find(x=> x.id === uid)
+      console.log("find", ref);
+      console.log("uid", uid);
+        setChanged1(ref)
+    }
+
+    const changeRef2 = (e) => {
+      e.preventDefault()
+      const uid = e.target.value
+      const ref = refs.find(x=> x.id === uid)
+      console.log("find", ref);
+      console.log("uid", uid);
+        setChanged2(ref)
+    }
+
+    const changeRef3 = (e) => {
+      e.preventDefault()
+      const uid = e.target.value
+      const ref = refs.find(x=> x.id === uid)
+      console.log("find", ref);
+      console.log("uid", uid);
+        setChanged3(ref)
+
     }
 
 
@@ -120,10 +140,77 @@ const EditGame = () => {
         dateTime: date,
         grade: grade,
         notes: notes,
+        ref1: (changed1 ? changed1 : ref1),
+        ref2: (changed2 ? changed2 : ref2),
+        ref3: (changed3 ? changed3 : ref3),
       })
       console.log("Document updated with ID: ", gameRef.id);
-
+      changeReferees()
   }
+
+  const changeReferees = async () => {
+    if (changed1) {
+    if (changed1.id !== ref1.id) {
+      const reqRef = doc(db, "games", id, "requested", ref1.id)
+      updateDoc(reqRef, {
+        accepted: false,
+        assigned: false,
+      })
+      await deleteDoc(doc(db, "users", ref1.id, "games", id));
+      const newRef = doc(db, "games", id, "requested", changed1.id)
+        updateDoc(newRef, {
+          accepted: false,
+          assigned: true,
+        })
+      const newRefGame = doc(db, "users", changed1.id, "games", id)
+        setDoc(newRefGame, {
+          game: id,
+          accepted: changed1.accepted,
+          date: date,
+        })
+    }}
+  if (changed2) { if (changed2.id !== ref2.id) {
+      const reqRef = doc(db, "games", id, "requested", ref2.id)
+      updateDoc(reqRef, {
+        accepted: false,
+        assigned: false,
+      })
+      await deleteDoc(doc(db, "users", ref2.id, "games", id));
+      const newRef = doc(db, "games", id, "requested", changed2.id)
+        updateDoc(newRef, {
+          accepted: false,
+          assigned: true,
+        })
+        const newRefGame = doc(db, "users", changed2.id, "games", id)
+          setDoc(newRefGame, {
+            game: id,
+            accepted: changed2.accepted,
+            date: date,
+          })
+    }}
+    if (changed3) {
+    if (changed3.id !== ref3.id) {
+      const reqRef = doc(db, "games", id, "requested", ref3.id)
+      updateDoc(reqRef, {
+        accepted: false,
+        assigned: false,
+      })
+      await deleteDoc(doc(db, "users", ref3.id, "games", id));
+      const newRef = doc(db, "games", id, "requested", changed3.id)
+        updateDoc(newRef, {
+          accepted: false,
+          assigned: true,
+        })
+        const newRefGame = doc(db, "users", changed3.id, "games", id)
+          setDoc(newRefGame, {
+            game: id,
+            accepted: changed3.accepted,
+            date: date,
+          })
+    }}
+  }
+
+
 
     return (
         <div className="EGDiv">
@@ -153,9 +240,9 @@ const EditGame = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Ref</Form.Label>
-            <Form.Select aria-label="Default select example" onChange={refChange}>
-              <option>Ref</option> //need to change so default ref shows up from game
+            <Form.Label>Ref1</Form.Label>
+            <Form.Select aria-label="Default select example" onChange={changeRef1}>
+              <option>{(ref1 ? ref1.name : "ref1")}</option> //need to change so default ref shows up from game
                 {
                   refs.map(ref => (
                     <option key={ref.id} value={ref.id}>{ref.name}</option>
@@ -166,12 +253,12 @@ const EditGame = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Ref/Line</Form.Label>
-            <Form.Select aria-label="Default select example" onChange={refLineChange}>
-              <option>Ref/Linesman</option> //need to change so default ref shows up from game
+            <Form.Label>Ref2</Form.Label>
+            <Form.Select aria-label="Default select example" onChange={changeRef2}>
+              <option>{(ref2 ? ref2.name : "ref2")}</option> //need to change so default ref shows up from game
                 {
                   refs.map(ref => (
-                    <option key={ref.id} value={ref.id}>{ref.name}</option>
+                    <option key={ref.id} value={ref.id} data={2}>{ref.name}</option>
                   ))
                 }
 
@@ -179,12 +266,12 @@ const EditGame = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Line</Form.Label>
-            <Form.Select aria-label="Default select example" onChange={LineChange}>
-              <option>Linesman</option> //need to change so default ref shows up from game
+            <Form.Label>Ref3</Form.Label>
+            <Form.Select aria-label="Default select example" onChange={changeRef3}>
+              <option>{(ref3 ? ref3.name : "ref3")}</option> //need to change so default ref shows up from game
                 {
                   refs.map(ref => (
-                    <option key={ref.id} value={ref.id}>{ref.name}</option>
+                    <option key={ref.id} value={ref.id} data={3}>{ref.name}</option>
                   ))
                 }
 

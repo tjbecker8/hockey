@@ -9,13 +9,18 @@ import DateTimePicker from 'react-datetime-picker';
 import { useParams, } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-
+import { confirm } from "react-confirm-box";
+import {
+  useNavigate
+} from "react-router-dom";
 
 
 
 //need to still do, so refs on game automatically populate in the three sections
 
 const EditGame = () => {
+
+    const navigate = useNavigate();
 
     const { id } = useParams();
     const [game, setGame] = useState({dateTime: new Date(), grade:"1"});
@@ -210,6 +215,26 @@ const EditGame = () => {
     }}
   }
 
+  const GameDelete = async () => {
+    const result = await confirm("Are you sure?");
+    if (result) {
+      await deleteDoc(doc(db, "games", id))
+      if (ref1) {
+        await deleteDoc(doc(db, "users", ref1.id, "games", id))
+      }
+      if (ref2) {
+        await deleteDoc(doc(db, "users", ref2.id, "games", id))
+      }
+      if (ref3) {
+        await deleteDoc(doc(db, "users", ref3.id, "games", id))
+      }
+     console.log("You click yes!");
+     navigate('/schedule')
+     return;
+   }
+   console.log("You click No!");
+  }
+
 
 
     return (
@@ -288,7 +313,7 @@ const EditGame = () => {
           </Button>
         </Form>
           <br></br>
-        <Button variant="danger">Delete Game <FontAwesomeIcon icon={faTrashAlt}  /></Button>
+        <Button variant="danger" onClick={GameDelete}>Delete Game <FontAwesomeIcon icon={faTrashAlt}  /></Button>
 
         </div>
     )

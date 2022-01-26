@@ -78,6 +78,10 @@ if (docSnap.exists()) {
         accepted: true,
       }
     });
+    setRef1(ref1 => ({
+      ...ref1,
+      accepted: true
+    }))
 
   } else if (ref2.id === uid) {
     await updateDoc(gRef, {
@@ -88,6 +92,10 @@ if (docSnap.exists()) {
         accepted: true,
       }
     });
+    setRef2(ref2 => ({
+      ...ref2,
+      accepted: true
+    }))
   } else if (ref2.id === uid) {
     await updateDoc(gRef, {
       ref3: {
@@ -97,6 +105,10 @@ if (docSnap.exists()) {
         accepted: true,
       }
     });
+    setRef3(ref3 => ({
+      ...ref3,
+      accepted: true
+    }))
   }
 console.log("updated accepted");
   }

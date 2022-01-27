@@ -18,6 +18,8 @@ const AdminPage = () => {
     navigate('/'+input)
   }
 
+  
+
 
     return (
         <div className="adminDiv">
@@ -27,30 +29,8 @@ const AdminPage = () => {
         <Container className="containerHome">
           <Row>
             <Col className="colHome">
-              <div onClick={() => {click("addadmin")}}>
-                <FontAwesomeIcon icon={faUserLock} size="6x" />
-                <h4>Manage Admin</h4>
-              </div>
-            </Col>
-            <Col className="colHome">
-              <div onClick={() => {click("profile")}}>
-                <FontAwesomeIcon icon={faUsers} size="6x" />
-                <h4>Manage Users</h4>
-              </div>
-            </Col>
-            <Col className="colHome">
-              <div onClick={() => {click("profile")}}>
-                <FontAwesomeIcon icon={faToiletPaper} size="6x" />
-                <h4>Manage League Admin</h4>
-              </div>
-            </Col>
-
-            <Col className="colHome">
               <PopUpAdmin />
             </Col>
-
-
-
           </Row>
         </Container>
 

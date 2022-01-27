@@ -1,7 +1,7 @@
 import React from 'react'
 import './homepage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarAlt, faAddressCard, faHockeyPuck, faBlind, faDumpsterFire, faEraser, faTrashAlt, faSkating } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faAddressCard, faHockeyPuck, faBlind, faDumpsterFire, faEraser, faTrashAlt, faSkating, faFingerprint } from '@fortawesome/free-solid-svg-icons'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -57,7 +57,13 @@ const HomePage = () => {
                   <h4>Edit Games</h4>
                 </div>
               </Col>
-              
+              <Col className="colHome">
+                <div onClick={() => {click("admin")}}>
+                  <FontAwesomeIcon icon={faFingerprint} size="6x" />
+                  <h4>Admin</h4>
+                </div>
+              </Col>
+
             </Row>
           </Container>
 

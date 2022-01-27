@@ -38,6 +38,7 @@ const Profile = () => {
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       const data = docSnap.data()
+      console.log("dddd", data);
       setName(data.displayName)
       setEmail(data.email)
       setPhone(data.phone)

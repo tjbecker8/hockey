@@ -8,10 +8,12 @@ import { getAuth, updateProfile } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const UpdateProfile = () => {
 
   ///need to change around image, to be urls
+  const navigate = useNavigate();
 
   const [name, setName] = useState('Tom Becker')
   const [image, setImage] = useState('')
@@ -65,9 +67,9 @@ const UpdateProfile = () => {
           phone: phone,
           facebook: facebook,
           image: url,
-          isRef: isRef,
         })
       console.log("Document updated with ID: ", userRef.id);
+      navigate('/profile')
 
     }
 
@@ -167,9 +169,7 @@ const UpdateProfile = () => {
                 This will not change your log in, to do that follow this link
               </Form.Text>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Referee?" checked={isRef} onChange={refChange} />
-            </Form.Group>
+
             <Button variant="primary" type="submit">
               Update
             </Button>

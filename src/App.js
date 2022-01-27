@@ -27,6 +27,7 @@ import Profile from './components/profile/Profile'
 import UpdateProfile from './components/profile/UpdateProfile'
 import AssignGames from './components/assignGames/AssignGames'
 import MyGames from './components/myGames/MyGames'
+import AdminPage from './components/adminPage/AdminPage'
 
 
 
@@ -95,6 +96,11 @@ function App() {
           <Route path='mygames' element={
             <PrivateRoute >
               <MyGames />
+            </PrivateRoute>
+          }/>
+        <Route path='admin' element={
+            <PrivateRoute >
+              <AdminPage />
             </PrivateRoute>
           }/>
 

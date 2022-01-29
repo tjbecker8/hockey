@@ -25,7 +25,7 @@ const getGame = async (g) => {
 const docSnap = await getDoc(docRef);
 
 if (docSnap.exists()) {
-  console.log("Document data:", docSnap.data());
+
   const data = docSnap.data()
   setRef1(data.ref1)
   setRef2(data.ref2)
@@ -38,7 +38,7 @@ if (docSnap.exists()) {
 
   useEffect(() => {
     setId(props.info.data.game)
-    console.log(props.info.data.game);
+    
     setConfirmed(props.info.data.accepted)
     let thisDate = new Date(props.info.data.date.seconds * 1000)
     let localDate = thisDate.toLocaleString()

@@ -16,7 +16,7 @@ const NewGame = () => {
 
   const handleSubmit = async (e) => {
     setDisabled(true)
-    const arr = []
+
     e.preventDefault();
     if (date && grade != null) {
     const docRef =  await addDoc(collection(db, "games"), {
@@ -28,10 +28,13 @@ const NewGame = () => {
       notes: '',
     });
     console.log("Document written with ID: ", docRef.id);
-    arr.push({dateTime: date, grade: grade})
 
     setDisabled(false)
-    setGames(arr)
+
+    setGames(games => [...games, {
+      dateTime: date,
+      grade: grade,
+    }])
   } else {
    alert("Date and Time cannot be empty")
  }
@@ -81,7 +84,7 @@ const NewGame = () => {
 
         {(games.length > 0 ?
           <div>
-            <p>Game added:</p>
+            <p>Games added:</p>
             { games.map((i, index) => {
               return (
                 <div>

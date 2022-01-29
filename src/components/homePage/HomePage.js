@@ -13,10 +13,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { currentUser, loading, admin, manager } = useContext(AuthContext);
 
-  useEffect(() => {
-    console.log("admin", admin);
-    console.log("manager", manager);
-  }, [])
+  
 
   const click = (input) => {
     navigate('/'+input)

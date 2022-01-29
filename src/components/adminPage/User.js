@@ -6,8 +6,10 @@ import { db, } from '../../firebase';
 const User = (props) => {
   const [admin, setAdmin] = useState(props.data.admin)
   const [manager, setManager] = useState(props.data.manager)
+  const [owner, SetOwner] = useState(props.data.owner)
 
   const SetAdmin = (uid) => {
+
     const userRef = doc(db, "users", uid)
     if (admin) {
       updateDoc(userRef, {
@@ -38,13 +40,19 @@ const User = (props) => {
 
 
     return (
+
       <tr key={props.index}>
         <td>{props.data.displayName}</td>
         <td>{(props.data.admin ? "yes" : "no")}</td>
         <td>{(props.data.leagueManager ? "yes" : "no")}</td>
-        <td><Button variant="info" onClick={() => {SetAdmin(props.data.userId)}}>{(admin ? "Remove Admin" : "Add As Admin")}</Button></td>
-        <td><Button variant="dark" onClick={() => {SetManager(props.data.userId)}}>{(manager ? "Remove Manager" : "Add As Manager")}</Button></td>
+        {(owner ? <td></td> :
+          <td><Button variant="info" onClick={() => {SetAdmin(props.data.userId)}}>{(admin ? "Remove Admin" : "Add As Admin")}</Button></td>
+        )}
+        {(owner ? <td></td> :
+          <td><Button variant="dark" onClick={() => {SetManager(props.data.userId)}}>{(manager ? "Remove Manager" : "Add As Manager")}</Button></td>
+        )}
       </tr>
+
     )
 }
 

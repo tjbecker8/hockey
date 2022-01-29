@@ -20,16 +20,23 @@ const MyGames = () => {
   const getMyGames = async (id) => {
     const today = new Date()
     const yesterday = today.setDate(today.getDate() - 1)
+    const arr = []
     const querySnapshot = await getDocs(collection(db, "users", id, "games"), where("date", ">=", yesterday));
 
     querySnapshot.forEach( async (doc) => {
-      // console.log("working?", doc.data());
-      setGames(games => [ ... games, {
+      arr.push({
         data: doc.data(),
         id: doc.id,
-        refs: refs,
-      }])
+        date: new Date(doc.data().dateTime * 1000)
+      })
+      // setGames(games => [ ... games, {
+      //   data: doc.data(),
+      //   id: doc.id,
+      //   refs: refs,
+      // }])
     })
+    const sorted = arr.sort((a, b) => a.date - b.date)
+    setGames(sorted)
   }
 
   // const getUserId = async () => {
@@ -53,7 +60,7 @@ const MyGames = () => {
 
     return (
         <div className="myGameDiv">
-        <h1>MG</h1>
+        <h1 className="h1MG" >My Games</h1>
           <Table striped bordered hover>
             <thead>
             <tr>

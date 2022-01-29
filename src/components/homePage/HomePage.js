@@ -7,20 +7,22 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth";
+import Schedule from '../schedule/schedule'
 
 
 const HomePage = () => {
   const navigate = useNavigate();
   const { currentUser, loading, admin, manager } = useContext(AuthContext);
 
-  
+
 
   const click = (input) => {
     navigate('/'+input)
   }
     return (
+      <div>
+        {( currentUser ?
         <div className="home">
-
         <h1>CHIRA Scheduling App</h1>
           <Container className="containerHome">
             <Row>
@@ -71,11 +73,15 @@ const HomePage = () => {
 
             </Row>
           </Container>
+        </div> :
 
-
-
+        <div>
+          <Schedule />
+        </div>
+      )}
 
         </div>
+
     )
 }
 

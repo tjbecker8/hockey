@@ -66,14 +66,21 @@ function App() {
            } />
           <Route path="newuser" element={ <NewUser /> } />
           <Route path="login" element={ <Login /> } />
-          <Route path="viewgame" element={ <ViewGame /> } >
+          <Route path="viewgame" element={
+            <PrivateRoute>
+              <ViewGame />
+            </PrivateRoute> } >
             <Route path=":id" element={
               <PrivateRoute>
                 <ViewGame />
               </PrivateRoute>
             } />
           </Route >
-          <Route path="editgame" element={ <EditGame />  } >
+          <Route path="editgame" element={
+              <ManagerRoute>
+                <EditGame />
+              </ManagerRoute>
+            } >
             <Route path=":id" element={
               <ManagerRoute>
                 <EditGame />

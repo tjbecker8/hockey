@@ -16,7 +16,7 @@ const Schedule = () => {
   const [id, setId] = useState(1)
   const { currentUser } = useContext(AuthContext);
   const [displayName, setDisplayName] = useState('')
-  const uid = currentUser.uid
+
 
 
   const getGames = async () => {
@@ -56,8 +56,11 @@ const Schedule = () => {
 
 
   useEffect(() => {
+    if (currentUser) {
+    const uid = currentUser.uid
     setId(uid)
     getUserInfo(uid)
+  }
     getGames()
   }, []);
 

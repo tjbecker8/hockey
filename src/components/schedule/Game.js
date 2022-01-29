@@ -24,7 +24,7 @@ import { AuthContext } from "../../auth";
 
 const Game = (props) => {
 
-  const { admin, manager } = useContext(AuthContext);
+  const { currentUser, admin, manager } = useContext(AuthContext);
   const [date, setDate] = useState('')
   const [id, setId] = useState('')
   const [requested, setRequested] = useState(false)
@@ -169,10 +169,10 @@ const Game = (props) => {
             </td>
 
 
-            <td>{
+            {(currentUser ? <td>{
                 (requested != true ? <Button variant="primary" onClick={ () => {clickRequest()} } >Request</Button> :
                 <Button variant="success" onClick={ () => {clickRequest()} } >Requested</Button>)
-            }</td>
+            }</td> : <td></td> )}
           {(admin || manager ?
           <td><Button variant="warning" onClick={ () => {clickEdit()} }><FontAwesomeIcon icon={faEraser} size="1x" /></Button></td>
           : <td></td>)}

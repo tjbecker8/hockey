@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Button from 'react-bootstrap/Button'
 import './game.css'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
@@ -11,6 +11,8 @@ import { db } from '../../firebase';
 import Badge from 'react-bootstrap/Badge'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEraser } from '@fortawesome/free-solid-svg-icons'
+import { AuthContext } from "../../auth";
+
 
 
 
@@ -22,6 +24,7 @@ import { faEraser } from '@fortawesome/free-solid-svg-icons'
 
 const Game = (props) => {
 
+  const { admin, manager } = useContext(AuthContext);
   const [date, setDate] = useState('')
   const [id, setId] = useState('')
   const [requested, setRequested] = useState(false)
@@ -54,7 +57,7 @@ const Game = (props) => {
           setRequested(true)
         }
       } else{
-        console.log("no doc");
+        // console.log("no doc");
       }
   }
 
@@ -70,7 +73,7 @@ const Game = (props) => {
 
 
   useEffect(() => {
-    console.log("props", props.info.data);
+    // console.log("props", props.info.data);
     theRefs()
     setId(props.info.id)
     getRequests(props.info.id, props.user)
@@ -170,7 +173,9 @@ const Game = (props) => {
                 (requested != true ? <Button variant="primary" onClick={ () => {clickRequest()} } >Request</Button> :
                 <Button variant="success" onClick={ () => {clickRequest()} } >Requested</Button>)
             }</td>
+          {(admin || manager ?
           <td><Button variant="warning" onClick={ () => {clickEdit()} }><FontAwesomeIcon icon={faEraser} size="1x" /></Button></td>
+          : <td></td>)}
         </tr>
 
 

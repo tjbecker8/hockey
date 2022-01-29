@@ -10,6 +10,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import PrivateRoute from "./privateRoute"
+import AdminRoute from './AdminRoute'
+import ManagerRoute from './ManagerRoute'
 import { AuthContext } from "./auth";
 import Spinner from 'react-bootstrap/Spinner'
 
@@ -58,9 +60,9 @@ function App() {
               </PrivateRoute>
             } />
           <Route path="newgame" element={
-            <PrivateRoute>
+            <ManagerRoute>
               <NewGame />
-            </PrivateRoute>
+            </ManagerRoute>
            } />
           <Route path="newuser" element={ <NewUser /> } />
           <Route path="login" element={ <Login /> } />
@@ -73,9 +75,9 @@ function App() {
           </Route >
           <Route path="editgame" element={ <EditGame />  } >
             <Route path=":id" element={
-              <PrivateRoute>
+              <ManagerRoute>
                 <EditGame />
-              </PrivateRoute>
+              </ManagerRoute>
             } />
           </Route >
           <Route path="profile" element={
@@ -89,9 +91,9 @@ function App() {
             </PrivateRoute>
            } />
           <Route path="assigngames" element={
-            <PrivateRoute >
+            <AdminRoute >
               <AssignGames />
-            </PrivateRoute>
+            </AdminRoute>
           } />
           <Route path='mygames' element={
             <PrivateRoute >
@@ -99,9 +101,9 @@ function App() {
             </PrivateRoute>
           }/>
         <Route path='admin' element={
-            <PrivateRoute >
+            <AdminRoute >
               <AdminPage />
-            </PrivateRoute>
+            </AdminRoute>
           }/>
 
         </Routes>

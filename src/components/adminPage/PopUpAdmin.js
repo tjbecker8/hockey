@@ -20,7 +20,6 @@ const PopUpAdmin = () => {
   const getUsers = async () => {
     const querySnapshot = await getDocs(collection(db, "users"))
     querySnapshot.forEach((doc) => {
-      console.log("gotten");
       setRefs(refs => [...refs, {
         data: doc.data(),
         id: doc.id,

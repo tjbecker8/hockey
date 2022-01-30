@@ -111,7 +111,12 @@ const EditGame = () => {
       if (uid !== "1") {
         const ref = refs.find(x=> x.id === uid)
         console.log("find", ref);
-        setChanged1(ref)
+        setChanged1({
+          accepted: false,
+          assigned: true,
+          id: ref.id,
+          name: ref.name,
+        })
       } else if (uid === "1") {
         setChanged1(1)
 
@@ -126,7 +131,12 @@ const EditGame = () => {
       if (uid !== "1") {
         const ref = refs.find(x=> x.id === uid)
         console.log("find", ref);
-        setChanged2(ref)
+        setChanged2({
+          accepted: false,
+          assigned: true,
+          id: ref.id,
+          name: ref.name,
+        })
       } else if (uid === "1") {
         setChanged2(1)
 
@@ -141,7 +151,12 @@ const EditGame = () => {
       if (uid !== "1") {
         const ref = refs.find(x=> x.id === uid)
         console.log("find", ref);
-        setChanged3(ref)
+        setChanged3({
+          accepted: false,
+          assigned: true,
+          id: ref.id,
+          name: ref.name,
+        })
       } else if (uid === "1") {
         setChanged3(1)
 
@@ -152,6 +167,7 @@ const EditGame = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("ref2", changed2);
     const gameRef = doc(db, "games", id)
       updateDoc(gameRef, {
         dateTime: date,
@@ -161,6 +177,7 @@ const EditGame = () => {
         ref2: (changed2 ? changed2 : ref2),
         ref3: (changed3 ? changed3 : ref3),
       })
+      console.log("document updated");
       changeReferees()
   }
 

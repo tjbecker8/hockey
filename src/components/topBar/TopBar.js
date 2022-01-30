@@ -17,7 +17,6 @@ const TopBar = () => {
   const [user, setUser] = useState(false)
 
   useEffect(() => {
-
     if (currentUser) {
       setUser(currentUser)
     }
@@ -41,11 +40,11 @@ const TopBar = () => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  {( user ?
+                  {( !currentUser ?
                     <Nav.Link href="/schedule">Schedule</Nav.Link> : <Nav.Link href="/login"></Nav.Link>
                   )}
 
-                {(!user ? <Nav.Link href="/login">Login/SignUp</Nav.Link>
+                {(!currentUser ? <Nav.Link href="/login">Login/SignUp</Nav.Link>
                   :
               <NavDropdown title="User" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/mygames">My Games</NavDropdown.Item>

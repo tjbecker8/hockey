@@ -276,6 +276,7 @@ const EditGame = () => {
     if (result) {
       await deleteDoc(doc(db, "games", id))
       if (ref1) {
+        console.log("ref1", ref1);
         await deleteDoc(doc(db, "users", ref1.id, "games", id))
       }
       if (ref2) {

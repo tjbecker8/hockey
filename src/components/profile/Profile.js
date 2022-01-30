@@ -42,7 +42,7 @@ const Profile = () => {
       setName(data.displayName)
       setEmail(data.email)
       setPhone(data.phone)
-      setIsRef(data.isRef)
+
       setImage(data.image)
       setFacebook(data.facebook)
     } else {
@@ -89,10 +89,7 @@ const Profile = () => {
             </Card.Body>
             <ListGroup className="list-group-flush">
               <ListGroupItem>Phone: {phone}</ListGroupItem>
-              <ListGroupItem>Facebook: {facebook}</ListGroupItem>
               <ListGroupItem>{email}</ListGroupItem>
-              <ListGroupItem>Prefered Contact Method</ListGroupItem>
-              <ListGroupItem>Referee? {(isRef ? "Yes" : "No")}</ListGroupItem>
             </ListGroup>
             <Card.Body>
               <Card.Link onClick={ () => profileUpdate() } href="#">Update Profile</Card.Link>

@@ -38,7 +38,6 @@ const EditGame = () => {
     const getRefs = async () => {
       const querySnapshot = await getDocs(collection(db, "games", id, "requested"));
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data().name);
         setRefs(refs => [ ... refs, {
           id: doc.id,
           name: doc.data().name,

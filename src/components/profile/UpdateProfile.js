@@ -159,10 +159,6 @@ const UpdateProfile = () => {
               <Form.Control type="number" placeholder="Phone" onChange={phoneChange} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Facebook</Form.Label>
-              <Form.Control type="text" placeholder="Facebook Profile" onChange={facebookChange} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>email</Form.Label>
               <Form.Control type="email" placeholder="email" onChange={emailChange} />
               <Form.Text className="text-muted">

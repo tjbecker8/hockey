@@ -109,15 +109,13 @@ const EditGame = () => {
       e.preventDefault()
       console.log(e.target.value);
       const uid = e.target.value
-      console.log("uid", uid);
       if (uid !== "1") {
         const ref = refs.find(x=> x.id === uid)
         console.log("find", ref);
         setChanged1(ref)
       } else if (uid === "1") {
-        console.log("bitches");
-        setChanged1(null)
-        setRef1(null)
+        setChanged1(1)
+
       }
     }
 
@@ -131,9 +129,8 @@ const EditGame = () => {
         console.log("find", ref);
         setChanged2(ref)
       } else if (uid === "1") {
-        console.log("bitches");
-        setChanged2(null)
-        setRef2(null)
+        setChanged2(1)
+
       }
     }
 
@@ -147,9 +144,8 @@ const EditGame = () => {
         console.log("find", ref);
         setChanged3(ref)
       } else if (uid === "1") {
-        console.log("bitches");
-        setChanged3(null)
-        setRef3(null)
+        setChanged3(1)
+
       }
     }
 
@@ -166,70 +162,114 @@ const EditGame = () => {
         ref2: (changed2 ? changed2 : ref2),
         ref3: (changed3 ? changed3 : ref3),
       })
-      console.log("Document updated with ID: ", gameRef.id);
       changeReferees()
   }
 
-  const changeReferees = async () => {
-    if (changed1) {
-    if (changed1.id !== ref1.id) {
-      const reqRef = doc(db, "games", id, "requested", ref1.id)
-      updateDoc(reqRef, {
+  const changed1Update = () => {
+    const newRef = doc(db, "games", id, "requested", changed1.id)
+      updateDoc(newRef, {
         accepted: false,
-        assigned: false,
+        assigned: true,
       })
-      await deleteDoc(doc(db, "users", ref1.id, "games", id));
-      const newRef = doc(db, "games", id, "requested", changed1.id)
-        updateDoc(newRef, {
-          accepted: false,
-          assigned: true,
-        })
-      const newRefGame = doc(db, "users", changed1.id, "games", id)
+    const newRefGame = doc(db, "users", changed1.id, "games", id)
+      setDoc(newRefGame, {
+        game: id,
+        accepted: changed1.accepted,
+        date: date,
+      })
+  }
+
+  const changed2Update = () => {
+    const newRef = doc(db, "games", id, "requested", changed2.id)
+      updateDoc(newRef, {
+        accepted: false,
+        assigned: true,
+      })
+      const newRefGame = doc(db, "users", changed2.id, "games", id)
         setDoc(newRefGame, {
           game: id,
-          accepted: changed1.accepted,
+          accepted: changed2.accepted,
           date: date,
         })
-    }}
-  if (changed2) { if (changed2.id !== ref2.id) {
-      const reqRef = doc(db, "games", id, "requested", ref2.id)
-      updateDoc(reqRef, {
+  }
+
+  const changed3Update = () => {
+    const newRef = doc(db, "games", id, "requested", changed3.id)
+      updateDoc(newRef, {
         accepted: false,
-        assigned: false,
+        assigned: true,
       })
-      await deleteDoc(doc(db, "users", ref2.id, "games", id));
-      const newRef = doc(db, "games", id, "requested", changed2.id)
-        updateDoc(newRef, {
-          accepted: false,
-          assigned: true,
+      const newRefGame = doc(db, "users", changed3.id, "games", id)
+        setDoc(newRefGame, {
+          game: id,
+          accepted: changed3.accepted,
+          date: date,
         })
-        const newRefGame = doc(db, "users", changed2.id, "games", id)
-          setDoc(newRefGame, {
-            game: id,
-            accepted: changed2.accepted,
-            date: date,
-          })
+  }
+
+  const removeRef1 = async () => {
+    const reqRef = doc(db, "games", id, "requested", ref1.id)
+    updateDoc(reqRef, {
+      accepted: false,
+      assigned: false,
+    })
+    await deleteDoc(doc(db, "users", ref1.id, "games", id));
+  }
+
+  const removeRef2 = async () => {
+    const reqRef = doc(db, "games", id, "requested", ref2.id)
+    updateDoc(reqRef, {
+      accepted: false,
+      assigned: false,
+    })
+    await deleteDoc(doc(db, "users", ref2.id, "games", id));
+  }
+
+  const removeRef3 = async () => {
+    const reqRef = doc(db, "games", id, "requested", ref3.id)
+    updateDoc(reqRef, {
+      accepted: false,
+      assigned: false,
+    })
+    await deleteDoc(doc(db, "users", ref3.id, "games", id));
+  }
+
+  const changeReferees = async () => {
+    if (changed1 === 1) {
+      removeRef1()
+    }
+    if (changed1 && changed1 !== 1) {
+      if (ref1) {
+    if (changed1.id !== ref1.id) {
+      removeRef1()
+      changed1Update()
+    }} else {
+      changed1Update()
     }}
-    if (changed3) {
+    if (changed2 === 1) {
+      removeRef2()
+    }
+  if (changed2 && changed2 !== 1) {
+    if (ref2) {
+    if (changed2.id !== ref2.id) {
+      removeRef2()
+      changed2Update()
+    }} else {
+      changed2Update()
+    }}
+    if (changed3 === 1) {
+      removeRef3()
+    }
+    if (changed3 && changed3 !== 1) {
+      if (ref3) {
     if (changed3.id !== ref3.id) {
-      const reqRef = doc(db, "games", id, "requested", ref3.id)
-      updateDoc(reqRef, {
-        accepted: false,
-        assigned: false,
-      })
-      await deleteDoc(doc(db, "users", ref3.id, "games", id));
-      const newRef = doc(db, "games", id, "requested", changed3.id)
-        updateDoc(newRef, {
-          accepted: false,
-          assigned: true,
-        })
-        const newRefGame = doc(db, "users", changed3.id, "games", id)
-          setDoc(newRefGame, {
-            game: id,
-            accepted: changed3.accepted,
-            date: date,
-          })
+      removeRef3()
+      changed3Update()
+    }} else {
+      changed3Update()
     }}
+    navigate('/schedule')
+
   }
 
   const GameDelete = async () => {
@@ -245,7 +285,7 @@ const EditGame = () => {
       if (ref3) {
         await deleteDoc(doc(db, "users", ref3.id, "games", id))
       }
-     console.log("You click yes!");
+
      navigate('/schedule')
      return;
    }

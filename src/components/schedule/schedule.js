@@ -35,9 +35,7 @@ const Schedule = () => {
       //   id: doc.id,
       // }])
         });
-        console.log("arr", arr);
         const sorted = arr.sort((a, b) => a.date - b.date)
-        console.log("sorted", sorted);
         setGames(sorted)
           }
 
